@@ -2,6 +2,7 @@ import React from "react";
 import ContractorForm from "./components/ContractorForm";
 import ContractorsList from "./components/ContractorsList";
 
+
 function App() {
   return (
     <div className="App">

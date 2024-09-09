@@ -12,14 +12,20 @@ const ContractorForm: React.FC = () => {
     e.preventDefault();
     const newContractor = { name, phone, nip, address, notes };
     
+
     try {
       const response = await addContractor(newContractor);
-      console.log('Contractor added:', response);
+      console.log("Contractor added:", response);
+
+      setName("");
+      setPhone("");
+      setNip("");
+      setAddress("");
+      setNotes("");
     } catch (error) {
-      console.error('Failed to add contractor:', error);
+      console.error("Failed to add contractor:", error);
     }
   };
-
   return (
     <form onSubmit={handleSubmit}>
       <input

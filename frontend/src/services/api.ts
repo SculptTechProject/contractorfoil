@@ -11,7 +11,6 @@ export const fetchContractors = async () => {
   }
 };
 
-
 export const addContractor = async (contractor: any) => {
   try {
     const response = await fetch(API_URL, {
@@ -28,5 +27,24 @@ export const addContractor = async (contractor: any) => {
     return await response.json();
   } catch (error) {
     console.error("Error adding contractor:", error);
+  }
+};
+
+export const deleteContractor = async (id: string) => {
+  try {
+    const response = await fetch(
+      `http://localhost:5173/api/contractors/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete contractor");
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error("Error deleting contractor:", error);
   }
 };

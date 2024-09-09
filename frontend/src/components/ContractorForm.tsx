@@ -1,22 +1,25 @@
-import React, { useState } from 'react';
-import { addContractor } from '../services/api';
+import React, { useState } from "react";
 
-const ContractorForm: React.FC = () => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [nip, setNip] = useState('');
-  const [address, setAddress] = useState('');
-  const [notes, setNotes] = useState('');
+interface ContractorFormProps {
+  onAddContractor: (newContractor: any) => void;
+}
+
+const ContractorForm: React.FC<ContractorFormProps> = ({ onAddContractor }) => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [nip, setNip] = useState("");
+  const [address, setAddress] = useState("");
+  const [notes, setNotes] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newContractor = { name, phone, nip, address, notes };
-    
 
     try {
-      const response = await addContractor(newContractor);
-      console.log("Contractor added:", response);
+      // Wywołanie funkcji przekazanej z nadrzędnego komponentu
+      onAddContractor(newContractor);
 
+      // Wyczyść formularz po dodaniu kontrahenta
       setName("");
       setPhone("");
       setNip("");
@@ -26,6 +29,7 @@ const ContractorForm: React.FC = () => {
       console.error("Failed to add contractor:", error);
     }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <input

@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const contractorsRouter = require("./routes/contractors"); // Import your routes
@@ -7,6 +8,7 @@ dotenv.config(); // Load environment variables from .env file
 
 const app = express(); // Initialize Express app
 
+app.use(cors()); // Dodaje wsparcie dla CORS
 app.use(express.json()); // Middleware to parse JSON
 
 // MongoDB connection

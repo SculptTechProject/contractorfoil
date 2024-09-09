@@ -1,13 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const contractorsRouter = require("./routes/contractors"); // Import your routes
 
-dotenv.config();
+dotenv.config(); // Load environment variables from .env file
 
-const app = express();
+const app = express(); // Initialize Express app
 
-// Middleware to parse JSON
-app.use(express.json());
+app.use(express.json()); // Middleware to parse JSON
 
 // MongoDB connection
 mongoose
@@ -15,15 +15,18 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to MongoDB"))
+  .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
+// Use your contractors routes here, after initializing the app
+app.use("/api/contractors", contractorsRouter);
 
 // Simple route for testing
 app.get("/", (req, res) => {
-  res.send("ContractorFoil API running!");
+  res.send("ContractorFoil API is running");
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5173;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

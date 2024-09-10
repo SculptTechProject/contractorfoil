@@ -10,21 +10,37 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
   onDeleteContractor,
 }) => {
   return (
-    <div>
-      <h2>Contractors List</h2>
-      <ul>
+    <div className="flex justify-center py-8">
+      <ul className="py-8">
         {contractors.length > 0 ? (
           contractors.map((contractor) => (
-            <li key={contractor._id}>
-              <strong>{contractor.name}</strong> - {contractor.phone},{" "}
-              {contractor.address}
-              <button onClick={() => onDeleteContractor(contractor._id)}>
+            <li className="" key={contractor._id}>
+              <strong>{contractor.name}</strong> - {contractor.phone} |{" "}
+              {contractor.address}|{" "}
+              <strong>
+                {contractor.contactDate
+                  ? // Formatowanie daty tutaj
+                    new Date(contractor.contactDate).toLocaleDateString(
+                      "pl-PL",
+                      {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                      }
+                    )
+                  : "No contact date"}{" "}
+              </strong>
+              |{" "}
+              <button
+                className="px-5 py-3 mx-8 bg-red-400 text-"
+                onClick={() => onDeleteContractor(contractor._id)}
+              >
                 Delete
               </button>
             </li>
           ))
         ) : (
-          <p>No contractors found</p>
+          <p className="text-red-600">No contractors found</p>
         )}
       </ul>
     </div>

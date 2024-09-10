@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 interface ContractorFormProps {
-  onAddContractor: (newContractor: any) => void;
+  onAddContractor: (newContractor: any) => void; // Definiujemy, że prop to funkcja
 }
 
 const ContractorForm: React.FC<ContractorFormProps> = ({ onAddContractor }) => {
@@ -10,31 +10,19 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onAddContractor }) => {
   const [nip, setNip] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
+  const [contactDate, setContactDate] = useState<Date | null>(null); // Stan na datę
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newContractor = { name, phone, nip, address, notes };
-
-    try {
-      // Wywołanie funkcji przekazanej z nadrzędnego komponentu
-      onAddContractor(newContractor);
-
-      // Wyczyść formularz po dodaniu kontrahenta
-      setName("");
-      setPhone("");
-      setNip("");
-      setAddress("");
-      setNotes("");
-    } catch (error) {
-      console.error("Failed to add contractor:", error);
-    }
+    const newContractor = { name, phone, nip, address, contactDate, notes };
+    onAddContractor(newContractor); // Wywołujemy funkcję dodania kontrahenta
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder="Name"
+        placeholder="Company Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
@@ -59,6 +47,10 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onAddContractor }) => {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
         required
+      />
+      <input
+        type="date"
+        onChange={(e) => setContactDate(new Date(e.target.value))}
       />
       <textarea
         placeholder="Notes"

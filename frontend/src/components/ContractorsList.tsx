@@ -15,8 +15,8 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
         {contractors.length > 0 ? (
           contractors.map((contractor) => (
             <li className="" key={contractor._id}>
-              <strong>{contractor.name}</strong> - {contractor.phone} |{" "}
-              {contractor.address}|{" "}
+              <strong>{contractor.name}</strong> - {contractor.nip} -{" "}
+              {contractor.phone} | {contractor.address} | {contractor.notes} |{" "}
               <strong>
                 {contractor.contactDate
                   ? // Formatowanie daty tutaj

@@ -16,6 +16,14 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onAddContractor }) => {
     e.preventDefault();
     const newContractor = { name, phone, nip, address, contactDate, notes };
     onAddContractor(newContractor); // Wywołujemy funkcję dodania kontrahenta
+
+    // Czyszczenie inputów
+    setName("");
+    setPhone("");
+    setNip("");
+    setAddress("");
+    setNotes("");
+    setContactDate(null);
   };
 
   return (
@@ -51,6 +59,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({ onAddContractor }) => {
       <input
         type="date"
         onChange={(e) => setContactDate(new Date(e.target.value))}
+        placeholder="Select contact date"
       />
       <textarea
         placeholder="Notes"

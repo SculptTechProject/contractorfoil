@@ -2,16 +2,17 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const contractorsRouter = require("./routes/contractorRouter"); // Import your routes
+const contractorsRouter = require("./routes/contractorRouter"); // Import routera kontrahentów
+const authRouter = require("./routes/authRouter"); // Import routera autoryzacyjnego
 
-dotenv.config(); // Load environment variables from .env file
+dotenv.config(); // Wczytanie zmiennych środowiskowych z pliku .env
 
-const app = express(); // Initialize Express app
+const app = express(); // Inicjalizacja aplikacji Express
 
-app.use(cors()); // Dodaje wsparcie dla CORS
-app.use(express.json()); // Middleware to parse JSON
+app.use(cors()); // Dodanie wsparcia dla CORS
+app.use(express.json()); // Middleware do parsowania JSON
 
-// MongoDB connection
+// Połączenie z MongoDB
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -20,15 +21,19 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Use your contractors routes here, after initializing the app
+// Trasy autoryzacyjne (rejestracja, logowanie)
+app.use("/api/auth", authRouter);
+
+// Trasy kontrahentów
 app.use("/api/contractors", contractorsRouter);
 
-// Simple route for testing
+// Prosta trasa testowa
 app.get("/", (req, res) => {
   res.send("ContractorFoil API is running");
 });
 
-const PORT = process.env.PORT || 5173;
+// Uruchomienie serwera
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

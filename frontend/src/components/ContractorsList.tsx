@@ -3,11 +3,13 @@ import React from "react";
 interface ContractorsListProps {
   contractors: any[];
   onDeleteContractor: (id: string) => void;
+  onEditContractor: (contractor: any) => void;
 }
 
 const ContractorsList: React.FC<ContractorsListProps> = ({
   contractors,
   onDeleteContractor,
+  onEditContractor,
 }) => {
   const today = new Date(); // Dzisiejsza data
 
@@ -35,6 +37,9 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                   })}{" "}
                 </strong>
                 |
+                <button onClick={() => onEditContractor(contractor)}>
+                  Edit
+                </button>
                 <button
                   className="px-5 py-3 mx-8 text-white bg-red-600"
                   onClick={() => onDeleteContractor(contractor._id)}

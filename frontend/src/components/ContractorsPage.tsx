@@ -1,65 +1,86 @@
 import React, { useState, useEffect } from "react";
-import ContractorForm from "./ContractorForm";
-import ContractorsList from "./ContractorsList";
 import {
   fetchContractors,
   addContractor,
   deleteContractor,
+  updateContractor,
 } from "../services/api";
+import ContractorForm from "./ContractorForm";
+import ContractorsList from "./ContractorsList";
 
 const ContractorsPage: React.FC = () => {
   const [contractors, setContractors] = useState<any[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [editingContractor, setEditingContractor] = useState<any | null>(null); // Kontrahent do edycji
 
-  // Pobieranie kontrahentów z backendu
   useEffect(() => {
-    const getContractors = async () => {
+    const loadContractors = async () => {
       try {
         const data = await fetchContractors();
-        if (data) {
-          setContractors(data);
-        } else {
-          setError("No data found");
-        }
+        setContractors(data);
       } catch (error) {
-        console.error("Error fetching contractors:", error);
-        setError("Failed to fetch contractors");
+        console.error("Failed to load contractors:", error);
       }
     };
-    getContractors();
+    loadContractors();
   }, []);
 
-  // Funkcja dodająca nowego kontrahenta
+  // Dodawanie nowego kontrahenta
   const handleAddContractor = async (newContractor: any) => {
     try {
-      const response = await addContractor(newContractor);
-      setContractors((prevContractors) => [...prevContractors, response]);
+      const addedContractor = await addContractor(newContractor);
+      setContractors([...contractors, addedContractor]); // Dodanie kontrahenta do listy
     } catch (error) {
       console.error("Failed to add contractor:", error);
     }
   };
 
-  // Funkcja usuwająca kontrahenta
+  // Aktualizacja istniejącego kontrahenta
+  const handleUpdateContractor = async (updatedContractor: any) => {
+    try {
+      const updated = await updateContractor(
+        updatedContractor._id,
+        updatedContractor
+      ); // Wywołanie update
+      setContractors(
+        contractors.map((contractor) =>
+          contractor._id === updated._id ? updated : contractor
+        )
+      );
+      setEditingContractor(null); // Resetowanie po aktualizacji
+    } catch (error) {
+      console.error("Failed to update contractor:", error);
+    }
+  };
+
+  // Usuwanie kontrahenta
   const handleDeleteContractor = async (id: string) => {
     try {
       await deleteContractor(id);
-      setContractors((prevContractors) =>
-        prevContractors.filter((contractor) => contractor._id !== id)
-      );
+      setContractors(contractors.filter((contractor) => contractor._id !== id));
     } catch (error) {
       console.error("Failed to delete contractor:", error);
     }
   };
 
+  // Edytowanie kontrahenta
+  const handleEditContractor = (contractor: any) => {
+    setEditingContractor(contractor); // Przekazanie kontrahenta do edycji
+  };
+
   return (
     <div>
-      <h1>Contractor Management</h1>
-      <ContractorForm onAddContractor={handleAddContractor} />
+      <h1>Contractors Management</h1>
+      {/* Przekazujemy funkcje dodawania i aktualizacji do formularza */}
+      <ContractorForm
+        contractor={editingContractor}
+        onAddContractor={handleAddContractor}
+        onUpdateContractor={handleUpdateContractor}
+      />
       <ContractorsList
         contractors={contractors}
         onDeleteContractor={handleDeleteContractor}
+        onEditContractor={handleEditContractor}
       />
-      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 };

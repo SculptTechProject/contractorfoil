@@ -1,42 +1,56 @@
-import React, { useEffect, useState } from "react";
-import { fetchContractors } from "../services/api";
+import React from "react";
 
-const ContractorsList: React.FC = () => {
-  const [contractors, setContractors] = useState<any[]>([]);
-  const [error, setError] = useState<string | null>(null);
+interface ContractorsListProps {
+  contractors: any[];
+  onDeleteContractor: (id: string) => void;
+  onEditContractor: (contractor: any) => void;
+}
 
-  useEffect(() => {
-    const getContractors = async () => {
-      try {
-        const data = await fetchContractors();
-        console.log("Fetched contractors:", data); // Sprawdź, co zwraca API
-        if (data) {
-          setContractors(data);
-        } else {
-          setError("No data found");
-        }
-      } catch (error) {
-        console.error("Error fetching contractors:", error);
-        setError("Failed to fetch contractors");
-      }
-    };
-    getContractors();
-  }, []);
+const ContractorsList: React.FC<ContractorsListProps> = ({
+  contractors,
+  onDeleteContractor,
+  onEditContractor,
+}) => {
+  const today = new Date(); // Dzisiejsza data
 
   return (
-    <div>
-      <h2>Contractors List</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <ul>
+    <div className="flex justify-center py-8">
+      <ul className="py-8">
         {contractors.length > 0 ? (
-          contractors.map((contractor) => (
-            <li key={contractor._id}>
-              <strong>{contractor.name}</strong> - {contractor.phone},{" "}
-              {contractor.address}
-            </li>
-          ))
+          contractors.map((contractor) => {
+            const contactDate = new Date(contractor.contactDate); // Konwersja daty kontrahenta
+            const timeDifference = contactDate.getTime() - today.getTime(); // Różnica w milisekundach
+            const daysLeft = Math.ceil(timeDifference / (1000 * 3600 * 24)); // Różnica w dniach
+
+            // Ustawiamy kolor tła na czerwony, jeśli dni do kontaktu jest mniej niż 4
+            const backgroundColor = daysLeft <= 4 ? "bg-red-400" : "bg-white";
+
+            return (
+              <li className={`${backgroundColor} p-4`} key={contractor._id}>
+                <strong>{contractor.name}</strong> - {contractor.nip} -{" "}
+                {contractor.phone} | {contractor.address} | {contractor.notes} |{" "}
+                <strong>
+                  {contactDate.toLocaleDateString("pl-PL", {
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit",
+                  })}{" "}
+                </strong>
+                |
+                <button onClick={() => onEditContractor(contractor)}>
+                  Edit
+                </button>
+                <button
+                  className="px-5 py-3 mx-8 text-white bg-red-600"
+                  onClick={() => onDeleteContractor(contractor._id)}
+                >
+                  Delete
+                </button>
+              </li>
+            );
+          })
         ) : (
-          <p>No contractors found</p>
+          <p className="text-red-600">No contractors found</p>
         )}
       </ul>
     </div>

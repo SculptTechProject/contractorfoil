@@ -1,23 +1,59 @@
-import React, { useState } from 'react';
-import { addContractor } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { addContractor, updateContractor } from "../services/api"; // Dodajemy funkcję do aktualizacji
 
-const ContractorForm: React.FC = () => {
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [nip, setNip] = useState('');
-  const [address, setAddress] = useState('');
-  const [notes, setNotes] = useState('');
+interface ContractorFormProps {
+  contractor?: any; // Możemy przekazać kontrahenta do edycji
+  onAddContractor: (newContractor: any) => void;
+  onUpdateContractor: (updatedContractor: any) => void;
+}
+
+const ContractorForm: React.FC<ContractorFormProps> = ({
+  contractor,
+  onAddContractor,
+  onUpdateContractor,
+}) => {
+  const [name, setName] = useState(contractor ? contractor.name : "");
+  const [phone, setPhone] = useState(contractor ? contractor.phone : "");
+  const [nip, setNip] = useState(contractor ? contractor.nip : "");
+  const [address, setAddress] = useState(contractor ? contractor.address : "");
+  const [notes, setNotes] = useState(contractor ? contractor.notes : "");
+
+  useEffect(() => {
+    if (contractor) {
+      setName(contractor.name);
+      setPhone(contractor.phone);
+      setNip(contractor.nip);
+      setAddress(contractor.address);
+      setNotes(contractor.notes);
+    }
+  }, [contractor]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newContractor = { name, phone, nip, address, notes };
-    
-    try {
-      const response = await addContractor(newContractor);
-      console.log('Contractor added:', response);
-    } catch (error) {
-      console.error('Failed to add contractor:', error);
+
+    if (contractor) {
+      try {
+        const updated = await updateContractor(contractor._id, newContractor);
+        onUpdateContractor(updated); // Wywołujemy aktualizację
+      } catch (error) {
+        console.error("Failed to update contractor:", error);
+      }
+    } else {
+      try {
+        const added = await addContractor(newContractor);
+        onAddContractor(added); // Wywołujemy dodanie nowego kontrahenta
+      } catch (error) {
+        console.error("Failed to add contractor:", error);
+      }
     }
+
+    // Reset formularza po dodaniu/aktualizacji
+    setName("");
+    setPhone("");
+    setNip("");
+    setAddress("");
+    setNotes("");
   };
 
   return (
@@ -55,7 +91,9 @@ const ContractorForm: React.FC = () => {
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
       />
-      <button type="submit">Add Contractor</button>
+      <button type="submit">
+        {contractor ? "Update Contractor" : "Add Contractor"}
+      </button>
     </form>
   );
 };

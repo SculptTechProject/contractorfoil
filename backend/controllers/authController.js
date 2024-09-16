@@ -6,11 +6,7 @@ const bcrypt = require("bcryptjs");
 const registerUser = async (req, res) => {
   const { email, password } = req.body;
 
-  console.log("Podany email: ", email);
-  console.log("Podane hasło: ", password);
-
-  // Upewnij się, że email nie istnieje w bazie
-  const trimmedEmail = email.trim(); // Usuwamy nadmiarowe spacje
+  const trimmedEmail = email.trim();
   const userExists = await User.findOne({ email: trimmedEmail });
 
   if (userExists) {
@@ -21,23 +17,16 @@ const registerUser = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
-  console.log("Zhaszowane hasło:", hashedPassword);
-
-  // Stworzenie nowego użytkownika
   const user = await User.create({
     email: trimmedEmail,
     password: hashedPassword,
   });
 
-  if (user) {
-    res.status(201).json({
-      _id: user._id,
-      email: user.email,
-      token: generateToken(user._id),
-    });
-  } else {
-    res.status(400).json({ message: "Invalid user data" });
-  }
+  res.status(201).json({
+    _id: user._id,
+    email: user.email,
+    token: generateToken(user._id),
+  });
 };
 
 // Generowanie tokenu
@@ -64,15 +53,6 @@ const loginUser = async (req, res) => {
   console.log("Hasło otrzymane w logowaniu:", password);
   console.log("Hasło w bazie danych:", user.password);
 
-  bcrypt.compare(password, user.password, (err, result) => {
-    if (err) {
-      console.error("Błąd podczas porównywania:", err);
-    } else {
-      console.log("Wynik porównania hasła:", result); // Sprawdź, czy porównanie daje true czy false
-    }
-  });
-
-
   // Sprawdź poprawność hasła
   const isMatch = await bcrypt.compare(password, user.password); // porównanie surowego hasła z zahashowanym
   console.log("Czy hasło jest poprawne:", isMatch);
@@ -86,9 +66,9 @@ const loginUser = async (req, res) => {
     expiresIn: "1h",
   });
 
+  // Zwróć odpowiedź z tokenem
   res.json({ token });
 };
-
 
 
 // Pobranie danych zalogowanego użytkownika

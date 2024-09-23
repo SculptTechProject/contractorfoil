@@ -2,6 +2,8 @@ const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+/* ------------------------------------------------------ */
+
 // Rejestracja użytkownika
 const registerUser = async (req, res) => {
   const { email, password } = req.body;
@@ -17,6 +19,9 @@ const registerUser = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
+  console.log("Hasło przed hashowaniem:", password);
+  console.log("Hasło po hashowaniu:", hashedPassword);
+
   const user = await User.create({
     email: trimmedEmail,
     password: hashedPassword,
@@ -29,12 +34,16 @@ const registerUser = async (req, res) => {
   });
 };
 
+/* ------------------------------------------------------ */
+
 // Generowanie tokenu
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
   });
 };
+
+/* ------------------------------------------------------ */
 
 // Logowanie użytkownika
 const loginUser = async (req, res) => {
@@ -50,7 +59,7 @@ const loginUser = async (req, res) => {
   }
 
   console.log("Email otrzymany w logowaniu:", trimmedEmail);
-  console.log("Hasło otrzymane w logowaniu:", password);
+  console.log("Hasło przed porównaniem:", password);
   console.log("Hasło w bazie danych:", user.password);
 
   // Sprawdź poprawność hasła
@@ -70,6 +79,7 @@ const loginUser = async (req, res) => {
   res.json({ token });
 };
 
+/* ------------------------------------------------------ */
 
 // Pobranie danych zalogowanego użytkownika
 const getMe = async (req, res) => {
@@ -81,6 +91,8 @@ const getMe = async (req, res) => {
   }
 };
 
+/* ------------------------------------------------------ */
+
 // Pobieranie wszystkich użytkowników (opcjonalnie, jeśli chcesz pokazać listę użytkowników)
 const getUsers = async (req, res) => {
   try {
@@ -90,6 +102,8 @@ const getUsers = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch users", error });
   }
 };
+
+/* ------------------------------------------------------ */
 
 module.exports = {
   registerUser,

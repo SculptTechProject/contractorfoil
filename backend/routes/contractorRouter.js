@@ -4,22 +4,21 @@ const {
   getContractors,
   deleteContractor,
   updateContractor,
-} = require("../controllers/contractorController"); // Import kontrolerów kontrahentów
-const { protect } = require("../middleware/authMiddleware"); // Middleware chroniący trasy
+} = require("../controllers/contractorController"); // Import kontrolerów
+const { protect } = require("../middleware/authMiddleware"); // Middleware autoryzacyjny
 
 const router = express.Router();
 
-// Trasy chronione dla kontrahentów
-// Dodawanie kontrahenta
-router.post("/contractors", protect, addContractor);
+// Trasa do dodawania kontrahenta (POST)
+router.post("/", protect, addContractor);
 
-// Pobieranie kontrahentów
-router.get("/contractors", protect, getContractors);
+// Trasa do pobierania wszystkich kontrahentów (GET)
+router.get("/", protect, getContractors);
 
-// Usuwanie kontrahenta
-router.delete("/contractors/:id", protect, deleteContractor);
+// Trasa do aktualizowania kontrahenta (PUT)
+router.put("/:id", protect, updateContractor);
 
-// Aktualizacja kontrahenta
-router.put("/contractors/:id", protect, updateContractor);
+// Trasa do usuwania kontrahenta (DELETE)
+router.delete("/:id", protect, deleteContractor);
 
 module.exports = router;

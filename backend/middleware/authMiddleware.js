@@ -6,24 +6,19 @@ const protect = async (req, res, next) => {
 
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
     try {
-      // Pobierz token z nagłówka
-      token = req.headers.authorization.split(" ")[1];
+      token = req.headers.authorization.split(" ")[1]; // Pobieranie tokena
+      console.log("Token received: ", token); // Logowanie tokena
 
-      // Zweryfikuj token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      // Pobierz użytkownika z bazy danych, pomijając hasło
+      const decoded = jwt.verify(token, process.env.JWT_SECRET); // Weryfikacja tokena
       req.user = await User.findById(decoded.id).select("-password");
 
       next();
     } catch (error) {
-      console.error("Błąd weryfikacji tokenu:", error);
+      console.error("Token verification failed:", error);
       res.status(401).json({ message: "Not authorized, token failed" });
     }
-  }
-
-  if (!token) {
-    return res.status(401).json({ message: "Not authorized, no token" });
+  } else {
+    res.status(401).json({ message: "Not authorized, no token" });
   }
 };
 

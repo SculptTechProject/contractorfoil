@@ -28,7 +28,6 @@ const App: React.FC = () => {
           element={
             <PrivateRoute>
               <div>
-                <h1>Dashboard</h1>
                 <ContractorsPage />
               </div>
             </PrivateRoute>

@@ -55,63 +55,87 @@ export const logoutUser = () => {
 
 // Pobieranie kontrahentów (autoryzowane)
 export const fetchContractors = async () => {
-  const response = await fetch(`${API_URL}/contractors`, {
+  const token = localStorage.getItem("userToken");
+
+  const response = await fetch("http://localhost:5173/api/contractors", {  // Zmiana ścieżki
     method: "GET",
-    headers: getHeaders(),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
 
-  const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch contractors");
+    throw new Error("Failed to fetch contractors");
   }
 
+  const data = await response.json();
   return data;
 };
 
 // Dodawanie kontrahenta (autoryzowane)
-export const addContractor = async (newContractor: any) => {
-  const response = await fetch(`${API_URL}/contractors`, {
+export const addContractor = async (contractorData: any) => {
+  const token = localStorage.getItem("userToken");
+
+  const response = await fetch("http://localhost:5173/api/contractors", {
     method: "POST",
-    headers: getHeaders(),
-    body: JSON.stringify(newContractor),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contractorData),
   });
 
-  const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to add contractor");
+    const errorMessage = await response.text();
+    throw new Error(`Failed to add contractor: ${errorMessage}`);
   }
 
-  return data;
+  return await response.json(); // Odczytanie odpowiedzi tylko raz
 };
 
 // Usuwanie kontrahenta (autoryzowane)
 export const deleteContractor = async (contractorId: string) => {
-  const response = await fetch(`${API_URL}/contractors/${contractorId}`, {
+  const token = localStorage.getItem("userToken"); // Pobranie tokena JWT
+
+  if (!token) {
+    throw new Error("No token found. Please login again.");
+  }
+
+  const response = await fetch(`http://localhost:5173/api/contractors/${contractorId}`, {
     method: "DELETE",
-    headers: getHeaders(),
+    headers: {
+      Authorization: `Bearer ${token}`, // Użycie tokena w nagłówku
+      "Content-Type": "application/json",
+    },
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Failed to delete contractor");
+    const errorMessage = await response.text();
+    throw new Error(`Failed to delete contractor: ${errorMessage}`);
   }
 
-  return true; // Zwracamy `true` jeśli kontrahent został pomyślnie usunięty
+  return await response.json();
 };
 
 
 // Aktualizowanie kontrahenta (autoryzowane)
-export const updateContractor = async (id: string, updatedContractor: any) => {
-  const response = await fetch(`${API_URL}/contractors/${id}`, {
+export const updateContractor = async (contractorId: string, contractorData: any) => {
+  const token = localStorage.getItem("userToken");
+
+  const response = await fetch(`http://localhost:5173/api/contractors/${contractorId}`, {
     method: "PUT",
-    headers: getHeaders(),
-    body: JSON.stringify(updatedContractor),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(contractorData),
   });
 
-  const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || "Failed to update contractor");
+    const errorMessage = await response.text();
+    throw new Error(`Failed to update contractor: ${errorMessage}`);
   }
 
-  return data;
+  return await response.json();
 };

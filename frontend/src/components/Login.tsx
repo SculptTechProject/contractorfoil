@@ -13,19 +13,23 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const data = await loginUser(email, password);
+      const data = await loginUser(email, password); // Wysyłanie żądania do API
       if (data.token) {
-        navigate("/dashboard"); // Przekierowanie po udanym logowaniu
+        // Zapisanie tokenu JWT w localStorage
+        localStorage.setItem("userToken", data.token);
+
+        // Przekierowanie na dashboard
+        navigate("/dashboard");
       }
     } catch (err) {
-      setError("Invalid credentials. Please try again.");
+      setError("Login failed. Please try again.");
     }
   };
 
   return (
     <div className="login-container">
-      <h2 className="text-4xl pb-8 text-gray-700">Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      <h2 className="text-4xl pb-6 text-gray-700">Login</h2>
+      {error && <p className="pb-2" style={{ color: "red" }}>{error}</p>}
       <form className="login-form" onSubmit={handleLogin}>
         <input
           type="email"

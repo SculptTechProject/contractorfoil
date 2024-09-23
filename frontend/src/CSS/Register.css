@@ -30,7 +30,7 @@
 
 .register-form input:hover, .register-form button:hover {
     transform: scale(1.04);
-    border-radius: 2%;
+    border-radius: 1%;
     border-color: rgba(106, 202, 85, 0.63);
 }
 

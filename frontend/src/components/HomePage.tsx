@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import LoadingScreen from "./LoadingScreen"; // Import ekranu ładowania
+import LoadingScreen from "./LoadingScreen";
+import "../CSS/HomePage.css";
 
 const HomePage: React.FC = () => {
     const [expandedFeature, setExpandedFeature] = useState<number | null>(null);
@@ -52,7 +53,7 @@ const HomePage: React.FC = () => {
     }
 
     return (
-        <div className="home-page flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+        <div className="home-page flex flex-col items-center justify-center min-h-screen p-6">
             {/* Nagłówek strony */}
             <header className="text-center mb-8">
                 <h1 className="text-4xl font-bold text-gray-800 mb-2">

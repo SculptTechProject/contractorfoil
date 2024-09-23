@@ -1,5 +1,4 @@
 const express = require("express");
-const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const contractorsRouter = require("./routes/contractorRouter"); // Import routera kontrahentów
@@ -9,7 +8,12 @@ dotenv.config(); // Wczytanie zmiennych środowiskowych z pliku .env
 
 const app = express(); // Inicjalizacja aplikacji Express
 
-app.use(cors()); // Dodanie wsparcia dla CORS
+const cors = require('cors');
+app.use(cors({
+  origin: 'http://localhost:3000', // Frontend
+  credentials: true,
+}));
+
 app.use(express.json()); // Middleware do parsowania JSON
 
 // Połączenie z MongoDB

@@ -10,8 +10,10 @@ import Register from "./components/Register";
 import ContractorsPage from "./components/ContractorsPage";
 import PrivateRoute from "./components/PrivateRoute";
 import HomePage from "./components/HomePage";
+import ErrorPage from "./components/ErrorPage";
 
 const App: React.FC = () => {
+  // @ts-ignore
   return (
     <Router>
       <Routes>
@@ -35,7 +37,7 @@ const App: React.FC = () => {
         />
 
         {/* Jeśli użytkownik wpisze złą trasę, przekierowujemy na stronę główną */}
-        <Route path="*" element={<Navigate to="/404" />} />
+        <Route path="*" element={<ErrorPage />}/>
       </Routes>
     </Router>
   );

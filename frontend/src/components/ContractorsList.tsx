@@ -41,7 +41,8 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                     <div>
                                         <h3 className="text-lg font-semibold">{contractor.name}</h3>
                                         <p className="text-sm text-gray-500">
-                                            {contractor.nip} | {contractor.phone} | {contractor.address} <br />
+                                            <strong>NIP:{" "}</strong>{contractor.nip} | <strong>Contact:{" "}</strong>{contractor.phone} | <strong>Address:{" "}</strong>{contractor.address}
+                                            <br />
                                             <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br />
                                             <strong>Notes:</strong> {contractor.notes}
                                         </p>

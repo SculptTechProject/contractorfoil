@@ -123,6 +123,10 @@ export const deleteContractor = async (contractorId: string) => {
 export const updateContractor = async (contractorId: string, contractorData: any) => {
   const token = localStorage.getItem("userToken");
 
+  if (!contractorId) {
+    throw new Error("Contractor ID is required for update");
+  }
+
   const response = await fetch(`http://localhost:5173/api/contractors/${contractorId}`, {
     method: "PUT",
     headers: {

@@ -13,11 +13,18 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                                          }) => {
     const today = new Date();
 
+    // Sortowanie kontrahentów według daty kontaktu - najbliższa data na górze
+    const sortedContractors = contractors.sort((a, b) => {
+        const dateA = new Date(a.contactDate).getTime();
+        const dateB = new Date(b.contactDate).getTime();
+        return dateA - dateB;
+    });
+
     return (
         <div className="max-w-5xl max-h-max mx-auto mt-8">
             <ul className="space-y-4">
-                {contractors.length > 0 ? (
-                    contractors.map((contractor) => {
+                {sortedContractors.length > 0 ? (
+                    sortedContractors.map((contractor) => {
                         const contactDate = new Date(contractor.contactDate);
                         const timeDifference = contactDate.getTime() - today.getTime();
                         const daysLeft = Math.ceil(timeDifference / (1000 * 3600 * 24));
@@ -34,7 +41,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                     <div>
                                         <h3 className="text-lg font-semibold">{contractor.name}</h3>
                                         <p className="text-sm text-gray-500">
-                                            <strong>NIP:</strong>{" "}{contractor.nip} | <strong>Contact:</strong>{" "}{contractor.phone} | {contractor.address} <br />
+                                            {contractor.nip} | {contractor.phone} | {contractor.address} <br />
                                             <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br />
                                             <strong>Notes:</strong> {contractor.notes}
                                         </p>

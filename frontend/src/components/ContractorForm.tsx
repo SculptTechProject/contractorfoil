@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 interface ContractorFormProps {
-    contractor?: any;
+    contractor?: any; // Możemy przekazać kontrahenta do edycji
     onAddContractor: (newContractor: any) => void;
     onUpdateContractor: (updatedContractor: any) => void;
 }
@@ -11,36 +11,32 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                                                            onAddContractor,
                                                            onUpdateContractor,
                                                        }) => {
-    const [name, setName] = useState(contractor ? contractor.name : "");
-    const [phone, setPhone] = useState(contractor ? contractor.phone : "");
-    const [nip, setNip] = useState(contractor ? contractor.nip : "");
-    const [address, setAddress] = useState(contractor ? contractor.address : "");
-    const [notes, setNotes] = useState(contractor ? contractor.notes : "");
-    const [contactDate, setContactDate] = useState(
-        contractor ? contractor.contactDate : ""
-    );
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [nip, setNip] = useState("");
+    const [address, setAddress] = useState("");
+    const [notes, setNotes] = useState("");
+    const [contactDate, setContactDate] = useState("");
 
     useEffect(() => {
         if (contractor) {
-            setName(contractor.name);
-            setPhone(contractor.phone);
-            setNip(contractor.nip);
-            setAddress(contractor.address);
-            setNotes(contractor.notes);
-            setContactDate(contractor.contactDate);
+            console.log("Editing contractor:", contractor); // Dodaj logowanie kontrahenta
+            setName(contractor.name || "");
+            setPhone(contractor.phone || "");
+            setNip(contractor.nip || "");
+            setAddress(contractor.address || "");
+            setNotes(contractor.notes || "");
+            setContactDate(contractor.contactDate ? contractor.contactDate.split("T")[0] : "");
         }
     }, [contractor]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
         const newContractor = { name, phone, nip, address, notes, contactDate };
 
-        // Sprawdzenie, czy edytujemy istniejącego kontrahenta
-        if (contractor) {
-            // Dodajemy _id do nowego kontrahenta w przypadku aktualizacji
-            const updatedContractor = { ...newContractor, _id: contractor._id };
-            onUpdateContractor(updatedContractor);
+        if (contractor && contractor._id) {
+            // Upewnij się, że ID kontrahenta jest przekazywane do edycji
+            onUpdateContractor({ ...newContractor, _id: contractor._id });
         } else {
             onAddContractor(newContractor);
         }

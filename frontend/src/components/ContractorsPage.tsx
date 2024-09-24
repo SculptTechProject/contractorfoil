@@ -65,24 +65,8 @@ const ContractorsPage: React.FC = () => {
   };
 
   // Edytowanie kontrahenta
-  const handleEditContractor = async (updatedContractor: any) => {
-    try {
-      if (!updatedContractor._id) {
-        throw new Error("Contractor ID is missing");
-      }
-      const updated = await updateContractor(
-          updatedContractor._id,
-          updatedContractor
-      );
-      setContractors(
-          contractors.map((contractor) =>
-              contractor._id === updated._id ? updated : contractor
-          )
-      );
-      setEditingContractor(null);
-    } catch (error) {
-      console.error("Failed to update contractor:", error);
-    }
+  const handleEditContractor = (contractor: any) => {
+    setEditingContractor(contractor); // Przekazanie kontrahenta do edycji
   };
 
   return (

@@ -7,25 +7,17 @@ import {
 } from "../services/api";
 import ContractorForm from "./ContractorForm";
 import ContractorsList from "./ContractorsList";
-import LogoutButton from "./LogoutButton"; // Import przycisku wylogowania
+import LogoutButton from "./LogoutButton";
 
 const ContractorsPage: React.FC = () => {
   const [contractors, setContractors] = useState<any[]>([]);
-  const [editingContractor, setEditingContractor] = useState<any | null>(null);
+  const [editingContractor, setEditingContractor] = useState<any | null>(null); // Kontrahent do edycji
 
   useEffect(() => {
     const loadContractors = async () => {
       try {
         const data = await fetchContractors();
-
-        // Sortowanie kontrahentów na podstawie daty kontaktu, im bliżej, tym wyżej na liście
-        const sortedContractors = data.sort((a: any, b: any) => {
-          const dateA = new Date(a.contactDate);
-          const dateB = new Date(b.contactDate);
-          return dateA.getTime() - dateB.getTime(); // Sortujemy według daty
-        });
-
-        setContractors(sortedContractors);
+        setContractors(data);
       } catch (error) {
         console.error("Failed to load contractors:", error);
       }
@@ -33,17 +25,51 @@ const ContractorsPage: React.FC = () => {
     loadContractors();
   }, []);
 
+  // Dodawanie nowego kontrahenta
   const handleAddContractor = async (newContractor: any) => {
     try {
       const addedContractor = await addContractor(newContractor);
-      setContractors([...contractors, addedContractor]);
+      setContractors([...contractors, addedContractor]); // Dodanie kontrahenta do listy
     } catch (error) {
       console.error("Failed to add contractor:", error);
     }
   };
 
+  // Aktualizacja istniejącego kontrahenta
   const handleUpdateContractor = async (updatedContractor: any) => {
     try {
+      const updated = await updateContractor(
+          updatedContractor._id,
+          updatedContractor
+      ); // Wywołanie update
+      setContractors(
+          contractors.map((contractor) =>
+              contractor._id === updated._id ? updated : contractor
+          )
+      );
+      setEditingContractor(null); // Resetowanie po aktualizacji
+    } catch (error) {
+      console.error("Failed to update contractor:", error);
+    }
+  };
+
+  // Usuwanie kontrahenta
+  const handleDeleteContractor = async (id: string) => {
+    console.log("Contractor ID to delete: ", id);  // Logowanie ID kontrahenta
+    try {
+      await deleteContractor(id);
+      setContractors(contractors.filter((contractor) => contractor._id !== id));
+    } catch (error) {
+      console.error("Failed to delete contractor:", error);
+    }
+  };
+
+  // Edytowanie kontrahenta
+  const handleEditContractor = async (updatedContractor: any) => {
+    try {
+      if (!updatedContractor._id) {
+        throw new Error("Contractor ID is missing");
+      }
       const updated = await updateContractor(
           updatedContractor._id,
           updatedContractor
@@ -59,31 +85,18 @@ const ContractorsPage: React.FC = () => {
     }
   };
 
-  const handleDeleteContractor = async (id: string) => {
-    console.log("Contractor ID to delete:", id); // Dodaj logowanie ID
-    try {
-      await deleteContractor(id);
-      setContractors(contractors.filter((contractor) => contractor._id !== id));
-    } catch (error) {
-      console.error("Failed to delete contractor:", error);
-    }
-  };
-
-  const handleEditContractor = (contractor: any) => {
-    setEditingContractor(contractor);
-  };
-
   return (
-      <div className="min-h-screen bg-gray-100 py-8">
-        <div className="container mx-auto">
-          <div className="relative flex flex-col sm:flex-row justify-between items-center mb-8">
-            <h1 className="text-3xl font-bold text-center text-gray-700">
-              Contractors Management
-            </h1>
-            <div className="mt-4 sm:mt-0 sm:absolute sm:right-0 sm:top-0">
-              <LogoutButton />
-            </div>
-          </div>
+      <div className="px-4 py-8 sm:px-6 lg:px-8">
+        {/* Wyśrodkowanie dla komputerów, zachowanie normalne dla telefonów */}
+        <div className="text-center lg:text-left lg:flex lg:justify-between lg:items-center">
+          <h1 className="text-2xl font-bold mb-4 lg:mb-0 lg:text-3xl">
+            Contractors Management
+          </h1>
+          {/* Przycisk wylogowania */}
+          <LogoutButton/>
+        </div>
+        <div className="mt-8">
+          {/* Formularz i lista kontrahentów */}
           <ContractorForm
               contractor={editingContractor}
               onAddContractor={handleAddContractor}

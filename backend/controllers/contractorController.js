@@ -1,26 +1,29 @@
 const Contractor = require("../models/contractorModel");
 
 // Dodawanie kontrahenta
-export const addContractor = async (contractor: any) => {
-  const token = localStorage.getItem("userToken");
+const addContractor = async (req, res) => {
+  const { name, phone, nip, address, contactDate, notes } = req.body;
 
-  const response = await fetch("http://localhost:5173/api/contractors", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(contractor),
-  });
-
-  if (!response.ok) {
-    const errorMessage = await response.text(); // Odczytaj odpowiedź jako tekst tylko raz
-    console.error("Error response:", errorMessage); // Zaloguj błąd
-    throw new Error("Failed to add contractor");
+  // Sprawdzenie, czy użytkownik jest dostępny z middleware 'protect'
+  if (!req.user) {
+    return res.status(400).json({ message: "User not found, token missing or invalid" });
   }
 
-  const data = await response.json(); // Odczyt strumienia odpowiedzi jako JSON tylko raz
-  return data;
+  try {
+    const newContractor = await Contractor.create({
+      name,
+      phone,
+      nip,
+      address,
+      contactDate,
+      notes,
+      user: req.user._id, // Przypisanie użytkownika z middleware
+    });
+
+    res.status(201).json(newContractor);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to add contractor", error });
+  }
 };
 
 // Pobieranie kontrahentów
@@ -38,31 +41,22 @@ const deleteContractor = async (req, res) => {
   const contractorId = req.params.id;
 
   try {
-    console.log("Deleting contractor with ID:", contractorId); // Logowanie ID kontrahenta
-
     const contractor = await Contractor.findById(contractorId);
 
-    if (!contractor) {
-      console.log("Contractor not found"); // Kontrahent nie znaleziony
+    if (!contractor || contractor.user.toString() !== req.user._id.toString()) {
       return res
           .status(404)
           .json({ message: "Contractor not found or not authorized" });
     }
 
-    if (contractor.user.toString() !== req.user._id.toString()) {
-      console.log("User not authorized to delete this contractor"); // Nieautoryzowany użytkownik
-      return res
-          .status(404)
-          .json({ message: "Contractor not found or not authorized" });
-    }
-
-    await contractor.remove();
+    // Używamy deleteOne zamiast remove
+    await contractor.deleteOne();
     res.status(200).json({ message: "Contractor deleted successfully" });
   } catch (error) {
-    console.error("Error deleting contractor:", error);
     res.status(500).json({ message: "Failed to delete contractor", error });
   }
 };
+
 
 // Aktualizowanie kontrahenta
 const updateContractor = async (req, res) => {
@@ -71,10 +65,8 @@ const updateContractor = async (req, res) => {
   try {
     const contractor = await Contractor.findById(contractorId);
 
-    if (!contractor || contractor.user.toString() !== req.user._id) {
-      return res
-          .status(404)
-          .json({ message: "Contractor not found or not authorized" });
+    if (!contractor || contractor.user.toString() !== req.user._id.toString()) {
+      return res.status(404).json({ message: "Contractor not found or not authorized" });
     }
 
     const updatedContractor = await Contractor.findByIdAndUpdate(
@@ -88,7 +80,6 @@ const updateContractor = async (req, res) => {
     res.status(500).json({ message: "Failed to update contractor", error });
   }
 };
-
 
 module.exports = {
   addContractor,

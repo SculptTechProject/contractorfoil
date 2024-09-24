@@ -14,7 +14,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
     const today = new Date();
 
     return (
-        <div className="max-w-4xl mx-auto mt-8">
+        <div className="max-w-5xl max-h-max mx-auto mt-8">
             <ul className="space-y-4">
                 {contractors.length > 0 ? (
                     contractors.map((contractor) => {
@@ -34,7 +34,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                     <div>
                                         <h3 className="text-lg font-semibold">{contractor.name}</h3>
                                         <p className="text-sm text-gray-500">
-                                            {contractor.nip} | {contractor.phone} | {contractor.address} <br />
+                                            <strong>NIP:</strong>{" "}{contractor.nip} | <strong>Contact:</strong>{" "}{contractor.phone} | {contractor.address} <br />
                                             <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br />
                                             <strong>Notes:</strong> {contractor.notes}
                                         </p>
@@ -42,13 +42,13 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                     <div className="space-x-4">
                                         <button
                                             onClick={() => onEditContractor(contractor)}
-                                            className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                            className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 ease-in-out"
                                         >
                                             Edit
                                         </button>
                                         <button
                                             onClick={() => onDeleteContractor(contractor._id)}
-                                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 ease-in-out"
                                         >
                                             Delete
                                         </button>

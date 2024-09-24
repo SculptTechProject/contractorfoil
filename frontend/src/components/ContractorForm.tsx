@@ -33,10 +33,14 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
         const newContractor = { name, phone, nip, address, notes, contactDate };
 
+        // Sprawdzenie, czy edytujemy istniejącego kontrahenta
         if (contractor) {
-            onUpdateContractor(newContractor);
+            // Dodajemy _id do nowego kontrahenta w przypadku aktualizacji
+            const updatedContractor = { ...newContractor, _id: contractor._id };
+            onUpdateContractor(updatedContractor);
         } else {
             onAddContractor(newContractor);
         }

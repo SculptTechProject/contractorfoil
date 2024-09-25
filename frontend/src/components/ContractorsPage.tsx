@@ -86,6 +86,7 @@ const ContractorsPage: React.FC = () => {
 
   return (
       <div className="container mx-auto px-4 py-8">
+        {/* Nagłówek i przycisk wylogowania */}
         <div className="bg-blue-500 text-white p-6 rounded-lg shadow-lg">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold">Contractors Management</h1>

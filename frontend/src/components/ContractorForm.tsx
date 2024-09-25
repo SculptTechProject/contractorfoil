@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface ContractorFormProps {
-    contractor?: any; // Możemy przekazać kontrahenta do edycji
+    contractor?: any; // Opcjonalny kontrahent do edycji
     onAddContractor: (newContractor: any) => void;
     onUpdateContractor: (updatedContractor: any) => void;
 }
@@ -11,22 +11,24 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                                                            onAddContractor,
                                                            onUpdateContractor,
                                                        }) => {
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [nip, setNip] = useState("");
-    const [address, setAddress] = useState("");
-    const [notes, setNotes] = useState("");
-    const [contactDate, setContactDate] = useState("");
+    const [name, setName] = useState(contractor ? contractor.name : "");
+    const [phone, setPhone] = useState(contractor ? contractor.phone : "");
+    const [nip, setNip] = useState(contractor ? contractor.nip : "");
+    const [address, setAddress] = useState(contractor ? contractor.address : "");
+    const [notes, setNotes] = useState(contractor ? contractor.notes : "");
+    const [contactDate, setContactDate] = useState(
+        contractor ? contractor.contactDate : ""
+    );
 
+    // Wypełnienie formularza danymi kontrahenta przy edycji
     useEffect(() => {
         if (contractor) {
-            console.log("Editing contractor:", contractor); // Dodaj logowanie kontrahenta
-            setName(contractor.name || "");
-            setPhone(contractor.phone || "");
-            setNip(contractor.nip || "");
-            setAddress(contractor.address || "");
-            setNotes(contractor.notes || "");
-            setContactDate(contractor.contactDate ? contractor.contactDate.split("T")[0] : "");
+            setName(contractor.name);
+            setPhone(contractor.phone);
+            setNip(contractor.nip);
+            setAddress(contractor.address);
+            setNotes(contractor.notes);
+            setContactDate(contractor.contactDate);
         }
     }, [contractor]);
 
@@ -35,13 +37,14 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
         const newContractor = { name, phone, nip, address, notes, contactDate };
 
         if (contractor && contractor._id) {
-            // Upewnij się, że ID kontrahenta jest przekazywane do edycji
+            // Jeśli jest edytowany kontrahent, wywołujemy funkcję aktualizacji
             onUpdateContractor({ ...newContractor, _id: contractor._id });
         } else {
+            // Jeśli nie ma kontrahenta, dodajemy nowego
             onAddContractor(newContractor);
         }
 
-        // Resetowanie formularza
+        // Resetowanie formularza po dodaniu/aktualizacji
         setName("");
         setPhone("");
         setNip("");
@@ -51,60 +54,68 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
     };
 
     return (
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg space-y-6">
-            <h2 className="text-2xl font-semibold text-gray-700">
-                {contractor ? "Update Contractor" : "Add Contractor"}
-            </h2>
-            <div className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+                <label className="block text-sm font-medium">Name</label>
                 <input
                     type="text"
-                    placeholder="Name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
+            </div>
+            <div>
+                <label className="block text-sm font-medium">Phone</label>
                 <input
                     type="text"
-                    placeholder="Phone"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
+            </div>
+            <div>
+                <label className="block text-sm font-medium">NIP</label>
                 <input
                     type="text"
-                    placeholder="NIP"
                     value={nip}
                     onChange={(e) => setNip(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
+            </div>
+            <div>
+                <label className="block text-sm font-medium">Address</label>
                 <input
                     type="text"
-                    placeholder="Address"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
-                <textarea
-                    placeholder="Notes"
-                    value={notes}
-                    onChange={(e) => setNotes(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                />
+            </div>
+            <div>
+                <label className="block text-sm font-medium">Contact Date</label>
                 <input
                     type="date"
-                    value={contactDate}
+                    value={contactDate ? contactDate.substring(0, 10) : ""}
                     onChange={(e) => setContactDate(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+            </div>
+            <div>
+                <label className="block text-sm font-medium">Notes</label>
+                <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
                 />
             </div>
             <button
                 type="submit"
-                className="w-full px-4 py-2 text-white bg-emerald-500 hover:bg-emerald-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
             >
                 {contractor ? "Update Contractor" : "Add Contractor"}
             </button>

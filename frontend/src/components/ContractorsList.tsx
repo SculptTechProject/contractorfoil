@@ -14,11 +14,11 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                                          }) => {
     const today = new Date();
 
-    // Sortowanie kontrahentów według daty kontaktu - najbliższa data na górze
+    // Sortowanie kontrahentów według daty kontaktu
     const sortedContractors = contractors.sort((a, b) => {
         const dateA = new Date(a.contactDate).getTime();
         const dateB = new Date(b.contactDate).getTime();
-        return dateA - dateB;
+        return dateA - dateB; // Im mniejsza wartość, tym wyżej w liście
     });
 
     return (
@@ -40,28 +40,30 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                             >
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        {/* Link do strony szczegółów kontrahenta */}
-                                        <Link to={`/contractors/${contractor._id}`}>
-                                            <h3 className="text-lg font-semibold text-blue-600 hover:underline">
-                                                {contractor.name}
-                                            </h3>
-                                        </Link>
+                                        <h3 className="text-lg font-semibold">{contractor.name}</h3>
                                         <p className="text-sm text-gray-500">
-                                            <strong>NIP:{" "}</strong>{contractor.nip} | <strong>Contact:{" "}</strong>{contractor.phone} | <strong>Address:{" "}</strong>{contractor.address}
-                                            <br/>
-                                            <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br/>
+                                            <strong>NIP: </strong>{contractor.nip} | <strong>Contact: </strong>{contractor.phone} | <strong>Address: </strong>{contractor.address}
+                                            <br />
+                                            <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br />
+                                            <strong>Notes:</strong> {contractor.notes}
                                         </p>
                                     </div>
-                                    <div className="space-x-4">
+                                    <div className="flex space-x-2">
+                                        <Link
+                                            to={`/contractors/${contractor._id}`}
+                                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 ease-in-out"
+                                        >
+                                            Details
+                                        </Link>
                                         <button
                                             onClick={() => onEditContractor(contractor)}
-                                            className="px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 ease-in-out"
+                                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 ease-in-out"
                                         >
                                             Edit
                                         </button>
                                         <button
                                             onClick={() => onDeleteContractor(contractor._id)}
-                                            className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 ease-in-out"
+                                            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 ease-in-out"
                                         >
                                             Delete
                                         </button>

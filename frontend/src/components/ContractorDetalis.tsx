@@ -81,9 +81,12 @@ const ContractorDetails: React.FC = () => {
     const handleSave = async () => {
         if (contractor && contractor._id) {
             try {
-                await updateContractor(contractor._id, formData);
+                const updatedContractor = await updateContractor(contractor._id, formData);
                 alert("Contractor updated successfully!");
                 setIsEditing(false);
+
+                // Aktualizacja stanu kontrahenta po edycji
+                setContractor(updatedContractor); // Bezpośrednia aktualizacja stanu
             } catch (error) {
                 console.error("Failed to update contractor:", error);
             }

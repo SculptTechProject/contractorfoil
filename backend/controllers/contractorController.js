@@ -81,9 +81,26 @@ const updateContractor = async (req, res) => {
   }
 };
 
+// Pobieranie kontrahenta po ID
+const getContractorById = async (req, res) => {
+  try {
+    const contractor = await Contractor.findById(req.params.id);
+
+    if (!contractor) {
+      return res.status(404).json({ message: 'Contractor not found' });
+    }
+
+    res.status(200).json(contractor);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch contractor', error });
+  }
+};
+
+
 module.exports = {
   addContractor,
   getContractors,
   deleteContractor,
   updateContractor,
+  getContractorById
 };

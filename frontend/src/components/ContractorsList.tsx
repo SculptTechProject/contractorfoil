@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 interface ContractorsListProps {
     contractors: any[];
@@ -39,12 +40,16 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                             >
                                 <div className="flex justify-between items-center">
                                     <div>
-                                        <h3 className="text-lg font-semibold">{contractor.name}</h3>
+                                        {/* Link do strony szczegółów kontrahenta */}
+                                        <Link to={`/contractors/${contractor._id}`}>
+                                            <h3 className="text-lg font-semibold text-blue-600 hover:underline">
+                                                {contractor.name}
+                                            </h3>
+                                        </Link>
                                         <p className="text-sm text-gray-500">
                                             <strong>NIP:{" "}</strong>{contractor.nip} | <strong>Contact:{" "}</strong>{contractor.phone} | <strong>Address:{" "}</strong>{contractor.address}
-                                            <br />
-                                            <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br />
-                                            <strong>Notes:</strong> {contractor.notes}
+                                            <br/>
+                                            <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br/>
                                         </p>
                                     </div>
                                     <div className="space-x-4">

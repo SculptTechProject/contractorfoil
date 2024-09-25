@@ -118,6 +118,23 @@ export const deleteContractor = async (contractorId: string) => {
   return await response.json();
 };
 
+export const fetchContractorById = async (id: string) => {
+  const token = localStorage.getItem("userToken");
+
+  const response = await fetch(`http://localhost:5173/api/contractors/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch contractor with ID: ${id}`);
+  }
+
+  return await response.json();
+};
 
 // Aktualizowanie kontrahenta (autoryzowane)
 export const updateContractor = async (contractorId: string, contractorData: any) => {

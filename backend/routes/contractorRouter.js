@@ -4,6 +4,7 @@ const {
   getContractors,
   deleteContractor,
   updateContractor,
+  getContractorById,
 } = require("../controllers/contractorController");
 const { protect } = require("../middleware/authMiddleware");
 
@@ -20,5 +21,8 @@ router.delete("/:id", protect, deleteContractor);
 
 // Trasa do aktualizowania kontrahenta
 router.put("/:id", protect, updateContractor);
+
+// Trasa do pobierania kontrahenta po ID
+router.get('/:id', getContractorById);
 
 module.exports = router;

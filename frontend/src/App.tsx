@@ -11,6 +11,7 @@ import ContractorsPage from "./components/ContractorsPage";
 import PrivateRoute from "./components/PrivateRoute";
 import HomePage from "./components/HomePage";
 import ErrorPage from "./components/ErrorPage";
+import ContractorDetails from "./components/ContractorDetalis";
 
 const App: React.FC = () => {
   // @ts-ignore
@@ -34,6 +35,16 @@ const App: React.FC = () => {
               </div>
             </PrivateRoute>
           }
+        />
+
+        {/* Trasa dla szczegółów kontrahenta */}
+        <Route
+            path="/contractors/:id"
+            element={
+              <PrivateRoute>
+                <ContractorDetails />
+              </PrivateRoute>
+            }
         />
 
         {/* Jeśli użytkownik wpisze złą trasę, przekierowujemy na stronę główną */}

@@ -1,4 +1,4 @@
-const API_URL = "https://contractorfoil.onrender.com/api/auth";
+const API_URL = "https://contractorfoil.onrender.com";
 
 // Funkcja do pobierania tokenu JWT z localStorage
 const getToken = () => {
@@ -16,7 +16,7 @@ const getHeaders = () => {
 
 // Rejestracja nowego użytkownika
 export const registerUser = async (email: string, password: string) => {
-  const response = await fetch("http://localhost:3000/api/auth/register", {
+  const response = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export const logoutUser = () => {
 export const fetchContractors = async () => {
   const token = localStorage.getItem("userToken");
 
-  const response = await fetch("http://localhost:5173/api/contractors", {  // Zmiana ścieżki
+  const response = await fetch(`http://localhost:5173/api/contractors`, {  // Zmiana ścieżki
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -77,7 +77,7 @@ export const fetchContractors = async () => {
 export const addContractor = async (contractorData: any) => {
   const token = localStorage.getItem("userToken");
 
-  const response = await fetch("http://localhost:5173/api/contractors", {
+  const response = await fetch(`${API_URL}/api/contractors`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -102,7 +102,7 @@ export const deleteContractor = async (contractorId: string) => {
     throw new Error("No token found. Please login again.");
   }
 
-  const response = await fetch(`http://localhost:5173/api/contractors/${contractorId}`, {
+  const response = await fetch(`${API_URL}/api/contractors/${contractorId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`, // Użycie tokena w nagłówku
@@ -121,7 +121,7 @@ export const deleteContractor = async (contractorId: string) => {
 export const fetchContractorById = async (id: string) => {
   const token = localStorage.getItem("userToken");
 
-  const response = await fetch(`http://localhost:5173/api/contractors/${id}`, {
+  const response = await fetch(`${API_URL}/api/contractors/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -144,7 +144,7 @@ export const updateContractor = async (contractorId: string, contractorData: any
     throw new Error("Contractor ID is required for update");
   }
 
-  const response = await fetch(`http://localhost:5173/api/contractors/${contractorId}`, {
+  const response = await fetch(`${API_URL}/api/contractors/${contractorId}`, {
     method: "PUT",
     headers: {
       Authorization: `Bearer ${token}`,

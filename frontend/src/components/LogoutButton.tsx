@@ -1,11 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../services/api"; // Import funkcji logout
 
 const LogoutButton: React.FC = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem("userToken"); // Usunięcie tokenu z localStorage
+        logoutUser(); // Wywołanie funkcji logoutUser (usuwa token)
         navigate("/login"); // Przekierowanie do strony logowania
     };
 

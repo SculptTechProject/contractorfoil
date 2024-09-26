@@ -1,88 +1,76 @@
 const API_URL = "https://contractorfoil.onrender.com";
 
-// Funkcja do pobierania tokenu JWT z localStorage
+// Function to get JWT token from localStorage
 const getToken = () => {
   return localStorage.getItem("userToken");
 };
 
-// Funkcja do konfiguracji nagłówków z tokenem JWT
+// Function to configure headers with JWT token
 const getHeaders = () => {
   const token = getToken();
   return {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`, // Dołączanie tokenu JWT do nagłówka
+    Authorization: `Bearer ${token}`,
   };
 };
 
-// Rejestracja nowego użytkownika
+// Register new user
 export const registerUser = async (email: string, password: string) => {
   const response = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
 
   if (!response.ok) {
-    throw new Error("Failed to register user");
+    const errorMessage = await response.text();
+    throw new Error(`Failed to register user: ${errorMessage}`);
   }
 
-  const data = await response.json();
-  return data;
-};
-
-// Logowanie użytkownika
-export const loginUser = async (email: string, password: string) => {
-  const response = await fetch(`${API_URL}/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
-  if (!response.ok) {
-    throw new Error("Failed to login");
-  }
   return await response.json();
 };
 
-
-// Wylogowanie użytkownika (czyszczenie tokenu JWT)
-export const logoutUser = () => {
-  localStorage.removeItem("userToken"); // Usunięcie tokenu JWT z localStorage
-};
-
-// Pobieranie kontrahentów (autoryzowane)
-export const fetchContractors = async () => {
-  const token = localStorage.getItem("userToken");
-
-  const response = await fetch(`${API_URL}/api/contractors`, {  // Zmiana ścieżki
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+// Login user
+export const loginUser = async (email: string, password: string) => {
+  const response = await fetch(`${API_URL}/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch contractors");
+    const errorMessage = await response.text();
+    throw new Error(`Failed to login: ${errorMessage}`);
   }
 
-  const data = await response.json();
-  return data;
+  return await response.json();
 };
 
-// Dodawanie kontrahenta (autoryzowane)
-export const addContractor = async (contractorData: any) => {
-  const token = localStorage.getItem("userToken");
+// Logout user
+export const logoutUser = () => {
+  localStorage.removeItem("userToken"); // Remove JWT token from localStorage
+};
 
+// Fetch all contractors
+export const fetchContractors = async () => {
+  const response = await fetch(`${API_URL}/api/contractors`, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new Error(`Failed to fetch contractors: ${errorMessage}`);
+  }
+
+  return await response.json();
+};
+
+// Add new contractor
+export const addContractor = async (contractorData: any) => {
   const response = await fetch(`${API_URL}/api/contractors`, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+    headers: getHeaders(),
     body: JSON.stringify(contractorData),
   });
 
@@ -91,23 +79,14 @@ export const addContractor = async (contractorData: any) => {
     throw new Error(`Failed to add contractor: ${errorMessage}`);
   }
 
-  return await response.json(); // Odczytanie odpowiedzi tylko raz
+  return await response.json();
 };
 
-// Usuwanie kontrahenta (autoryzowane)
+// Delete contractor
 export const deleteContractor = async (contractorId: string) => {
-  const token = localStorage.getItem("userToken"); // Pobranie tokena JWT
-
-  if (!token) {
-    throw new Error("No token found. Please login again.");
-  }
-
   const response = await fetch(`${API_URL}/api/contractors/${contractorId}`, {
     method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`, // Użycie tokena w nagłówku
-      "Content-Type": "application/json",
-    },
+    headers: getHeaders(),
   });
 
   if (!response.ok) {
@@ -118,38 +97,30 @@ export const deleteContractor = async (contractorId: string) => {
   return await response.json();
 };
 
+// Fetch contractor by ID
 export const fetchContractorById = async (id: string) => {
-  const token = localStorage.getItem("userToken");
-
   const response = await fetch(`${API_URL}/api/contractors/${id}`, {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getHeaders(),
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to fetch contractor with ID: ${id}`);
+    const errorMessage = await response.text();
+    throw new Error(`Failed to fetch contractor with ID ${id}: ${errorMessage}`);
   }
 
   return await response.json();
 };
 
-// Aktualizowanie kontrahenta (autoryzowane)
+// Update contractor
 export const updateContractor = async (contractorId: string, contractorData: any) => {
-  const token = localStorage.getItem("userToken");
-
   if (!contractorId) {
     throw new Error("Contractor ID is required for update");
   }
 
   const response = await fetch(`${API_URL}/api/contractors/${contractorId}`, {
     method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+    headers: getHeaders(),
     body: JSON.stringify(contractorData),
   });
 

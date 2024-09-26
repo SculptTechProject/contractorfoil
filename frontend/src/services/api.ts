@@ -57,7 +57,7 @@ export const logoutUser = () => {
 export const fetchContractors = async () => {
   const token = localStorage.getItem("userToken");
 
-  const response = await fetch(`http://localhost:5173/api/contractors`, {  // Zmiana ścieżki
+  const response = await fetch(`${API_URL}/api/contractors`, {  // Zmiana ścieżki
     method: "GET",
     headers: {
       "Content-Type": "application/json",

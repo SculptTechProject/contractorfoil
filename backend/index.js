@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require('cors');
 const contractorsRouter = require("./routes/contractorRouter"); // Import routera kontrahentów
 const authRouter = require("./routes/authRouter"); // Import routera autoryzacyjnego
 
@@ -8,9 +9,9 @@ dotenv.config(); // Wczytanie zmiennych środowiskowych z pliku .env
 
 const app = express();
 
-const cors = require('cors');
 app.use(cors({
   origin: 'https://contractorfoil.vercel.app/', // Frontend
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
 

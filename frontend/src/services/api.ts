@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5173/api/auth";
+const API_URL = "https://contractorfoil.onrender.com/api/auth";
 
 // Funkcja do pobierania tokenu JWT z localStorage
 const getToken = () => {

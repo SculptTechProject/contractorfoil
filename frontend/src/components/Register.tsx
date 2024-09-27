@@ -119,7 +119,7 @@ const Register: React.FC = () => {
                     </div>
                 )}
 
-                <button onSubmit={handleRegister} type="submit">Register</button>
+                <button onClick={handleRegister} type="submit">Register</button>
             </form>
             <div className="register-footer text-center text-gray-600">
                 <div className="pt-6">

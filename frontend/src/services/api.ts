@@ -1,4 +1,4 @@
-const API_URL = "https://contractorfoil.onrender.com";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5173";
 
 // Function to get JWT token from localStorage
 const getToken = () => {

@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
+const axios = require("axios");
 
 // Funkcja do generowania tokenu JWT
 const generateToken = (id) => {
@@ -10,9 +11,23 @@ const generateToken = (id) => {
 
 // Rejestracja użytkownika
 const registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, captchaToken } = req.body;
+
+  if (!captchaToken) {
+    return res.status(400).json({ message: "Captcha is required" });
+  }
+
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}`;
 
   try {
+    const response = await axios.post(verifyUrl);
+    const { success, score } = response.data;
+
+    if (!success || score < 0.5) {
+      return res.status(400).json({ message: "Captcha verification failed" });
+    }
+
     // Sprawdź, czy użytkownik już istnieje
     const userExists = await User.findOne({ email });
 
@@ -26,7 +41,6 @@ const registerUser = async (req, res) => {
       password,
     });
 
-    // Wyślij token JWT
     res.status(201).json({
       _id: user._id,
       email: user.email,

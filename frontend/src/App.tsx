@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
 } from "react-router-dom";
 import Login from "./components/Login";
 import Register from "./components/Register";
@@ -14,7 +13,6 @@ import ErrorPage from "./components/ErrorPage";
 import ContractorDetails from "./components/ContractorDetalis";
 
 const App: React.FC = () => {
-  // @ts-ignore
   return (
     <Router>
       <Routes>

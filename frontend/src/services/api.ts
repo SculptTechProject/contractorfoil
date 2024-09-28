@@ -1,4 +1,4 @@
-const API_URL = "https://contractorfoil.onrender.com";
+const API_URL = "https://contractorfoil.onrender.com"/*"http://localhost:5173"*/;
 
 // Function to get JWT token from localStorage
 const getToken = () => {
@@ -15,11 +15,11 @@ const getHeaders = () => {
 };
 
 // Register new user
-export const registerUser = async (email: string, password: string) => {
+export const registerUser = async (email: string, password: string, captchaToken: string) => {
   const response = await fetch(`${API_URL}/api/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email, password, captchaToken }), // Wysyłanie email, password i captchaToken
   });
 
   if (!response.ok) {

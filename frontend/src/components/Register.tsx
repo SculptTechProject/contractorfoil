@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/api";
 import AOS from "aos";
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import "aos/dist/aos.css";
 import "../CSS/Register.css";
 
@@ -17,6 +18,8 @@ const Register: React.FC = () => {
         number: false,
         specialChar: false
     });
+
+    const { executeRecaptcha } = useGoogleReCaptcha();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,27 +35,34 @@ const Register: React.FC = () => {
         // Reset errors
         setError(null);
 
-        // Sprawdzenie czy wszystkie zasady hasła są spełnione
+        // Sprawdzenie, czy wszystkie zasady hasła są spełnione
         if (!Object.values(passwordValidations).every(Boolean)) {
             setError("Password does not meet all the requirements");
             return;
         }
 
-        // Sprawdzenie czy hasła się zgadzają
+        // Sprawdzenie, czy hasła się zgadzają
         if (password !== confirmPassword) {
             setError("Passwords do not match");
             return;
         }
 
-        try {
-            const data = await registerUser(email, password);
+        if (!executeRecaptcha) {
+            setError("reCAPTCHA is not ready yet");
+            return;
+        }
 
-            // Sprawdzenie, czy serwer zwrócił błąd istniejącego emaila
+        try {
+            // Pobierz token reCAPTCHA
+            const captchaToken = await executeRecaptcha("register");
+
+            // Wyślij token captcha na backend
+            const data = await registerUser(email, password, captchaToken);
+
             if (data.error && data.error === "User already exists") {
                 setError("This email is already registered.");
             } else if (data.token) {
-                // Przekierowanie po udanej rejestracji
-                navigate("/dashboard");
+                navigate("/dashboard"); // Przekierowanie po udanej rejestracji
             }
         } catch (err) {
             setError("Registration failed. Try again.");
@@ -133,4 +143,11 @@ const Register: React.FC = () => {
     );
 };
 
-export default Register;
+// Wstawienie komponentu wewnątrz GoogleReCaptchaProvider:
+const RegisterWithRecaptcha = () => (
+    <GoogleReCaptchaProvider reCaptchaKey="TWÓJ_SITE_KEY">
+        <Register />
+    </GoogleReCaptchaProvider>
+);
+
+export default RegisterWithRecaptcha;

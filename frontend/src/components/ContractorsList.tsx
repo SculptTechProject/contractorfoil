@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "../CSS/ContractorList.css";
 
 interface ContractorsListProps {
     contractors: any[];
@@ -38,35 +39,49 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                 className={`p-4 border-l-4 shadow-md rounded-lg ${backgroundColor} ${borderColor}`}
                                 key={contractor._id}
                             >
-                                <div className="flex justify-between items-center">
-                                    <div>
-                                        <h3 className="text-lg font-semibold">{contractor.name}</h3>
-                                        <p className="text-sm text-gray-500">
-                                            <strong>NIP: </strong>{contractor.nip} | <strong>Contact: </strong>{contractor.phone} | <strong>Address: </strong>{contractor.address}
-                                            <br />
-                                            <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}<br />
-                                            <strong>Notes:</strong> {contractor.notes}
-                                        </p>
-                                    </div>
-                                    <div className="flex space-x-2">
-                                        <Link
-                                            to={`/contractors/${contractor._id}`}
-                                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 ease-in-out"
-                                        >
-                                            Details
-                                        </Link>
-                                        <button
-                                            onClick={() => onEditContractor(contractor)}
-                                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 ease-in-out"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => onDeleteContractor(contractor._id)}
-                                            className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 ease-in-out"
-                                        >
-                                            Delete
-                                        </button>
+                                <div className="max-w-7xl w-full mx-auto p-4 rounded-lg">
+                                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+                                        {/* Informacje o kontrahencie */}
+                                        <div className="col-span-2">
+                                            <h3 className="text-lg font-semibold mb-2">{contractor.name}</h3>
+                                            <p className="text-sm text-gray-500">
+                                                <strong>NIP:</strong> {contractor.nip}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
+                                                <strong>Contact:</strong> {contractor.phone}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
+                                                <strong>Address:</strong> {contractor.address}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
+                                                <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
+                                                <strong>Notes:</strong> {contractor.notes || "No notes available"}
+                                            </p>
+                                        </div>
+
+                                        {/* Przyciski */}
+                                        <div className="flex flex-col space-y-3">
+                                            <Link
+                                                to={`/contractors/${contractor._id}`}
+                                                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 ease-in-out text-center"
+                                            >
+                                                Details
+                                            </Link>
+                                            <button
+                                                onClick={() => onEditContractor(contractor)}
+                                                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-200 ease-in-out text-center"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => onDeleteContractor(contractor._id)}
+                                                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all duration-200 ease-in-out text-center"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </li>

@@ -14,6 +14,7 @@ const ContractorDetails: React.FC = () => {
         phone: "",
         address: "",
         contactDate: "",
+        price: "",
         notes: "",
     }); // Stany dla formularza
     const navigate = useNavigate();
@@ -35,6 +36,7 @@ const ContractorDetails: React.FC = () => {
                     phone: data.phone,
                     address: data.address,
                     contactDate: data.contactDate,
+                    price: data.price,
                     notes: data.notes,
                 });
             } catch (error) {
@@ -140,6 +142,14 @@ const ContractorDetails: React.FC = () => {
                                 className="p-2 border border-gray-300 rounded-lg w-full"
                             />
                             <input
+                                type="number"
+                                name="price"
+                                value={formData.price}
+                                onChange={handleFormChange}
+                                placeholder="Price"
+                                className="p-2 border border-gray-300 rounded-lg w-full"
+                            />
+                            <input
                                 type="date"
                                 name="contactDate"
                                 value={formData.contactDate.split("T")[0]}
@@ -182,6 +192,9 @@ const ContractorDetails: React.FC = () => {
                             </p>
                             <p className="text-gray-800">
                                 <strong>Address:</strong> {contractor.address}
+                            </p>
+                            <p className="text-gray-800">
+                                <strong>Price:</strong> {contractor.price}{"zł"}
                             </p>
                             <p className="text-gray-800">
                                 <strong>Contact Date:</strong> {contactDate}

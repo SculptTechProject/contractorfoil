@@ -15,11 +15,11 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
     const [phone, setPhone] = useState(contractor ? contractor.phone : "");
     const [nip, setNip] = useState(contractor ? contractor.nip : "");
     const [address, setAddress] = useState(contractor ? contractor.address : "");
+    const [price, setPrice] = useState(contractor ? contractor.price : "");
     const [notes, setNotes] = useState(contractor ? contractor.notes : "");
     const [contactDate, setContactDate] = useState(
         contractor ? contractor.contactDate : ""
     );
-
     // Wypełnienie formularza danymi kontrahenta przy edycji
     useEffect(() => {
         if (contractor) {
@@ -27,6 +27,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
             setPhone(contractor.phone);
             setNip(contractor.nip);
             setAddress(contractor.address);
+            setPrice(contractor.price);
             setNotes(contractor.notes);
             setContactDate(contractor.contactDate);
         }
@@ -34,7 +35,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newContractor = { name, phone, nip, address, notes, contactDate };
+        const newContractor = { name, phone, nip, address, price, notes, contactDate };
 
         if (contractor && contractor._id) {
             // Jeśli jest edytowany kontrahent, wywołujemy funkcję aktualizacji
@@ -49,6 +50,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
         setPhone("");
         setNip("");
         setAddress("");
+        setPrice("");
         setNotes("");
         setContactDate("");
     };
@@ -101,6 +103,16 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                     type="date"
                     value={contactDate ? contactDate.substring(0, 10) : ""}
                     onChange={(e) => setContactDate(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
+                    required
+                />
+            </div>
+            <div>
+                <label className="block text-sm font-medium">Price</label>
+                <input
+                    type="number"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
                     className="block w-full p-2 border border-gray-300 rounded-md"
                     required
                 />

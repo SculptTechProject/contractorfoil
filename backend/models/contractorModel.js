@@ -8,6 +8,7 @@ const contractorSchema = new mongoose.Schema(
     address: { type: String, required: true },
     contactDate: { type: Date },
     notes: { type: String },
+      price: { type: Number },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

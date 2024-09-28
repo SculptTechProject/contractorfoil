@@ -54,6 +54,9 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                                 <strong>Address:</strong> {contractor.address}
                                             </p>
                                             <p className="text-sm text-gray-500">
+                                                <strong>Price:</strong> {contractor.price}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
                                                 <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}
                                             </p>
                                             <p className="text-sm text-gray-500">
@@ -63,7 +66,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
 
                                         {/* Przyciski */}
                                         <div className="flex flex-col space-y-3">
-                                            <Link
+                                        <Link
                                                 to={`/contractors/${contractor._id}`}
                                                 className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-200 ease-in-out text-center"
                                             >

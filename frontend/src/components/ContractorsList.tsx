@@ -54,7 +54,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                                 <strong>Address:</strong> {contractor.address}
                                             </p>
                                             <p className="text-sm text-gray-500">
-                                                <strong>Price:</strong> {contractor.price}
+                                                <strong>Price:</strong> {contractor.price}{"zł"}
                                             </p>
                                             <p className="text-sm text-gray-500">
                                                 <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}

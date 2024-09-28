@@ -145,7 +145,7 @@ const Register: React.FC = () => {
 
 // Wstawienie komponentu wewnątrz GoogleReCaptchaProvider:
 const RegisterWithRecaptcha = () => (
-    <GoogleReCaptchaProvider reCaptchaKey="TWÓJ_SITE_KEY">
+    <GoogleReCaptchaProvider reCaptchaKey="6LeHslAqAAAAAOD-3s1rcRDwxb03uBqQ6LmvAEcX">
         <Register />
     </GoogleReCaptchaProvider>
 );

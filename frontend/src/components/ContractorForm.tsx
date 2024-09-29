@@ -15,7 +15,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
     const [phone, setPhone] = useState(contractor ? contractor.phone : "");
     const [nip, setNip] = useState(contractor ? contractor.nip : "");
     const [address, setAddress] = useState(contractor ? contractor.address : "");
-    const [price, setPrice] = useState(contractor ? contractor.price : "");
+    const [priceColorless, setPriceColorless] = useState(contractor ? contractor.priceColorless : "");
+    const [priceColor, setPriceColor] = useState(contractor ? contractor.priceColor : "");
     const [notes, setNotes] = useState(contractor ? contractor.notes : "");
     const [contactDate, setContactDate] = useState(
         contractor ? contractor.contactDate : ""
@@ -27,7 +28,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
             setPhone(contractor.phone);
             setNip(contractor.nip);
             setAddress(contractor.address);
-            setPrice(contractor.price);
+            setPriceColorless(contractor.priceColorless);
+            setPriceColor(contractor.priceColor);
             setNotes(contractor.notes);
             setContactDate(contractor.contactDate);
         }
@@ -35,7 +37,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newContractor = { name, phone, nip, address, price, notes, contactDate };
+        const newContractor = { name, phone, nip, address, priceColorless, priceColor, notes, contactDate };
 
         if (contractor && contractor._id) {
             // Jeśli jest edytowany kontrahent, wywołujemy funkcję aktualizacji
@@ -50,7 +52,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
         setPhone("");
         setNip("");
         setAddress("");
-        setPrice("");
+        setPriceColorless("");
+        setPriceColor("");
         setNotes("");
         setContactDate("");
     };
@@ -108,13 +111,23 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                 />
             </div>
             <div>
-                <label className="block text-sm font-medium">Price</label>
+                <label className="block text-sm font-medium">Price FOD Colorless</label>
                 <input
                     type="number"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
+                    value={priceColorless}
+                    onChange={(e) => setPriceColorless(e.target.value)}
                     className="block w-full p-2 border border-gray-300 rounded-md"
-                    required
+                    placeholder="zł/kg Colorless"
+                />
+            </div>
+            <div>
+                <label className="block text-sm font-medium">Price FOD Color</label>
+                <input
+                    type="number"
+                    value={priceColor}
+                    onChange={(e) => setPriceColor(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
+                    placeholder="zł/kg Color"
                 />
             </div>
             <div>

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchContractorById, updateContractor } from "../services/api";
+/*
+import PriceHistory from "../components/PriceHistory";
+*/
 
 const ContractorDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>(); // id z URL
@@ -14,7 +17,8 @@ const ContractorDetails: React.FC = () => {
         phone: "",
         address: "",
         contactDate: "",
-        price: "",
+        priceColorless: "",
+        priceColor: "",
         notes: "",
     }); // Stany dla formularza
     const navigate = useNavigate();
@@ -36,7 +40,8 @@ const ContractorDetails: React.FC = () => {
                     phone: data.phone,
                     address: data.address,
                     contactDate: data.contactDate,
-                    price: data.price,
+                    priceColorless: data.priceColorless,
+                    priceColor: data.priceColor,
                     notes: data.notes,
                 });
             } catch (error) {
@@ -143,10 +148,18 @@ const ContractorDetails: React.FC = () => {
                             />
                             <input
                                 type="number"
-                                name="price"
-                                value={formData.price}
+                                name="priceColorless"
+                                value={formData.priceColorless}
                                 onChange={handleFormChange}
-                                placeholder="Price"
+                                placeholder="Price FOD Colorless"
+                                className="p-2 border border-gray-300 rounded-lg w-full"
+                            />
+                            <input
+                                type="number"
+                                name="priceColor"
+                                value={formData.priceColor}
+                                onChange={handleFormChange}
+                                placeholder="Price FOD Color"
                                 className="p-2 border border-gray-300 rounded-lg w-full"
                             />
                             <input
@@ -194,7 +207,14 @@ const ContractorDetails: React.FC = () => {
                                 <strong>Address:</strong> {contractor.address}
                             </p>
                             <p className="text-gray-800">
-                                <strong>Price:</strong> {contractor.price}{"zł"}
+                                <strong>Price FOD Colorless:</strong> {contractor.priceColorless
+                                ? `${contractor.priceColorless.toFixed(2)} zł/kg`
+                                : 'No price'}
+                            </p>
+                            <p className="text-gray-800">
+                                <strong>Price FOD Color:</strong> {contractor.priceColor
+                                ? `${contractor.priceColor.toFixed(2)} zł/kg`
+                                : 'No price'}
                             </p>
                             <p className="text-gray-800">
                                 <strong>Contact Date:</strong> {contactDate}

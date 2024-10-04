@@ -19,6 +19,8 @@ const ContractorDetails: React.FC = () => {
         contactDate: "",
         priceColorless: "",
         priceColor: "",
+        priceUnknown: "",
+        typeUnknown: "",
         notes: "",
     }); // Stany dla formularza
     const navigate = useNavigate();
@@ -42,6 +44,8 @@ const ContractorDetails: React.FC = () => {
                     contactDate: data.contactDate,
                     priceColorless: data.priceColorless,
                     priceColor: data.priceColor,
+                    priceUnknown: data.priceUnknown,
+                    typeUnknown: data.typeUnknown,
                     notes: data.notes,
                 });
             } catch (error) {
@@ -163,6 +167,22 @@ const ContractorDetails: React.FC = () => {
                                 className="p-2 border border-gray-300 rounded-lg w-full"
                             />
                             <input
+                                type="text"
+                                name="typeUnknown"
+                                value={formData.typeUnknown}
+                                onChange={handleFormChange}
+                                placeholder="Type Unknown"
+                                className="p-2 border border-gray-300 rounded-lg w-full"
+                            />
+                            <input
+                                type="number"
+                                name="priceUnknown"
+                                value={formData.priceUnknown}
+                                onChange={handleFormChange}
+                                placeholder="Price Unknown"
+                                className="p-2 border border-gray-300 rounded-lg w-full"
+                            />
+                            <input
                                 type="date"
                                 name="contactDate"
                                 value={formData.contactDate.split("T")[0]}
@@ -215,6 +235,11 @@ const ContractorDetails: React.FC = () => {
                                 <strong>Price FOD Color:</strong> {contractor.priceColor
                                 ? `${contractor.priceColor.toFixed(2)} zł/kg`
                                 : 'No price'}
+                            </p>
+                            <p>
+                                <strong>{contractor.typeUnknown ? `${contractor.typeUnknown.toString()}` : 'No type'}:</strong>{" "}
+                                {contractor.priceUnknown ? `${contractor.priceUnknown.toFixed(2)} zł/kg`
+                                    : 'No price'}
                             </p>
                             <p className="text-gray-800">
                                 <strong>Contact Date:</strong> {contactDate}

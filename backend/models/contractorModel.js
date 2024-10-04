@@ -10,6 +10,8 @@ const contractorSchema = new mongoose.Schema(
     notes: { type: String },
       priceColorless: { type: Number },
       priceColor: { type: Number },
+      typeUnknown: {type: String },
+      priceUnknown: { type: Number },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

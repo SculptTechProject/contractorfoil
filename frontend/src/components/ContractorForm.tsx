@@ -15,8 +15,13 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
     const [phone, setPhone] = useState(contractor ? contractor.phone : "");
     const [nip, setNip] = useState(contractor ? contractor.nip : "");
     const [address, setAddress] = useState(contractor ? contractor.address : "");
+
+                                        /* Prices */
     const [priceColorless, setPriceColorless] = useState(contractor ? contractor.priceColorless : "");
     const [priceColor, setPriceColor] = useState(contractor ? contractor.priceColor : "");
+    const [priceUnknown, setPriceUnknown] = useState("");
+    const [typeUnknown, setTypeUnknown] = useState("");
+
     const [notes, setNotes] = useState(contractor ? contractor.notes : "");
     const [contactDate, setContactDate] = useState(
         contractor ? contractor.contactDate : ""
@@ -30,6 +35,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
             setAddress(contractor.address);
             setPriceColorless(contractor.priceColorless);
             setPriceColor(contractor.priceColor);
+            setPriceUnknown(contractor.priceUnknown);
+            setTypeUnknown(contractor.typeUnknown);
             setNotes(contractor.notes);
             setContactDate(contractor.contactDate);
         }
@@ -54,6 +61,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
         setAddress("");
         setPriceColorless("");
         setPriceColor("");
+        setTypeUnknown("");
+        setPriceUnknown("");
         setNotes("");
         setContactDate("");
     };
@@ -96,20 +105,22 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                     type="text"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    className="block w-full p-2 border border-gray-300 rounded-md"
+                    className="block w-full pt-4 border border-gray-300 rounded-md"
                     required
                 />
             </div>
+                                            {/* Contact Date */}
             <div>
                 <label className="block text-sm font-medium">Contact Date</label>
                 <input
                     type="date"
                     value={contactDate ? contactDate.substring(0, 10) : ""}
                     onChange={(e) => setContactDate(e.target.value)}
-                    className="block w-full p-2 border border-gray-300 rounded-md"
+                    className="block w-full pb-4 border border-gray-300 rounded-md"
                     required
                 />
             </div>
+                                            {/* Price FOD Colorless */}
             <div>
                 <label className="block text-sm font-medium">Price FOD Colorless</label>
                 <input
@@ -120,6 +131,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                     placeholder="zł/kg Colorless"
                 />
             </div>
+                                            {/* Price FOD Color */}
             <div>
                 <label className="block text-sm font-medium">Price FOD Color</label>
                 <input
@@ -130,6 +142,25 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                     placeholder="zł/kg Color"
                 />
             </div>
+                                        {/* Setting form for type unknown  */}
+            <div>
+                <label className="block text-sm font-medium">FOD Type:</label>
+                <input
+                type="text"
+                value={typeUnknown}
+                onChange={(e) => setTypeUnknown(e.target.value)}
+                className="block w-full p-2 border border-gray-300 rounded-md"
+                />
+                <label className="block text-sm font-medium">Price FOD Type Unknown</label>
+                <input
+                    type="number"
+                    value={priceUnknown}
+                    onChange={(e) => setPriceColor(e.target.value)}
+                    className="block w-full p-2 border border-gray-300 rounded-md"
+                    placeholder="zł/kg"
+                />
+            </div>
+                                        {/* Form for notes */}
             <div>
                 <label className="block text-sm font-medium">Notes</label>
                 <textarea
@@ -138,6 +169,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                     className="block w-full p-2 border border-gray-300 rounded-md"
                 />
             </div>
+                                        {/* Submit button*/}
             <button
                 type="submit"
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"

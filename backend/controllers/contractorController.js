@@ -2,7 +2,7 @@ const Contractor = require("../models/contractorModel");
 
 // Dodawanie kontrahenta
 const addContractor = async (req, res) => {
-  const { name, phone, nip, address, contactDate, notes, priceColorless, priceColor } = req.body; // to add something else
+  const { name, phone, nip, address, contactDate, notes, priceColorless, priceColor, typeUnknown, priceUnknown } = req.body; // to add something else
 
   // Sprawdzenie, czy użytkownik jest dostępny z middleware 'protect'
   if (!req.user) {
@@ -19,6 +19,8 @@ const addContractor = async (req, res) => {
       notes,
       priceColorless,
       priceColor,
+      typeUnknown,
+      priceUnknown,
       user: req.user._id, // Przypisanie użytkownika z middleware
     });
 

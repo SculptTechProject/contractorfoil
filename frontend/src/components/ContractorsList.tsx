@@ -64,6 +64,11 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                                                 : 'No price'}
                                             </p>
                                             <p className="text-sm text-gray-500">
+                                                <strong>{contractor.typeUnknown ? `${contractor.typeUnknown.toString()}` : 'No type'}:</strong>{" "}
+                                                {contractor.priceUnknown ? `${contractor.priceUnknown.toFixed(2)} zł/kg`
+                                                : 'No price'}
+                                            </p>
+                                            <p className="text-sm text-gray-500">
                                                 <strong>Date:</strong> {contactDate.toLocaleDateString("pl-PL")}
                                             </p>
                                             <p className="text-sm text-gray-500">

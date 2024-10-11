@@ -19,8 +19,8 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                                         /* Prices */
     const [priceColorless, setPriceColorless] = useState(contractor ? contractor.priceColorless : "");
     const [priceColor, setPriceColor] = useState(contractor ? contractor.priceColor : "");
-    const [priceUnknown, setPriceUnknown] = useState("");
-    const [typeUnknown, setTypeUnknown] = useState("");
+    const [priceUnknown, setPriceUnknown] = useState(contractor ? contractor.priceUnknown : "");
+    const [typeUnknown, setTypeUnknown] = useState(contractor ? contractor.typeUnknown : "");
 
     const [notes, setNotes] = useState(contractor ? contractor.notes : "");
     const [contactDate, setContactDate] = useState(
@@ -151,11 +151,12 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                 onChange={(e) => setTypeUnknown(e.target.value)}
                 className="block w-full p-2 border border-gray-300 rounded-md"
                 />
+                                        {/* Setting price for unknown type */}
                 <label className="block text-sm font-medium">Price FOD Type Unknown</label>
                 <input
                     type="number"
                     value={priceUnknown}
-                    onChange={(e) => setPriceColor(e.target.value)}
+                    onChange={(e) => setPriceUnknown(e.target.value)}
                     className="block w-full p-2 border border-gray-300 rounded-md"
                     placeholder="zł/kg"
                 />

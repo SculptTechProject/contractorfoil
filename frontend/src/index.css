@@ -16,3 +16,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@keyframes bubble-move {
+  0%, 100% {
+    transform: translateY(-15px) scale(1);
+  }
+  50% {
+    transform: translateY(15px) scale(1.1);
+  }
+}
+
+.animate-bubble-move {
+  animation: bubble-move 6s ease-in-out infinite;
+}
+
+.animate-bubble-move.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.animate-bubble-move.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.animate-bubble-move.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animate-bubble-move.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.animate-bubble-move.delay-500 {
+  animation-delay: 0.5s;
+}
+
+

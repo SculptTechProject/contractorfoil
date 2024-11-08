@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchContractorById, updateContractor } from "../services/api";
+import { toast } from "react-toastify";
 /*
 import PriceHistory from "../components/PriceHistory";
 */
@@ -93,13 +94,13 @@ const ContractorDetails: React.FC = () => {
         if (contractor && contractor._id) {
             try {
                 const updatedContractor = await updateContractor(contractor._id, formData);
-                alert("Contractor updated successfully!");
                 setIsEditing(false);
-
+                toast.success("Contractor updated successfully");
                 // Aktualizacja stanu kontrahenta po edycji
                 setContractor(updatedContractor); // Bezpośrednia aktualizacja stanu
             } catch (error) {
                 console.error("Failed to update contractor:", error);
+                toast.error("Failed to update contractor");
             }
         }
     };

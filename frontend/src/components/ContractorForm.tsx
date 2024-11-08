@@ -44,7 +44,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const newContractor = { name, phone, nip, address, priceColorless, priceColor, notes, contactDate };
+        const newContractor = { name, phone, nip, address, priceColorless, priceColor,typeUnknown, priceUnknown, notes, contactDate };
 
         if (contractor && contractor._id) {
             // Jeśli jest edytowany kontrahent, wywołujemy funkcję aktualizacji

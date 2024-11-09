@@ -11,7 +11,7 @@ const app = express();
 
 // CORS Middleware to dynamically allow requests based on environment
 app.use(cors({
-    origin: [/*'https://contractorfoil.vercel.app'*/'http://localhost:3000'],
+    origin: ['https://contractorfoil.vercel.app'/*'http://localhost:3000'*/],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
 }));

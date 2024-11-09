@@ -70,7 +70,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-                <label className="block text-sm font-medium">Name</label>
+                <label className="block text-sm font-medium">Company Name</label>
                 <input
                     type="text"
                     value={name}
@@ -79,89 +79,88 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                     required
                 />
             </div>
-            <div>
-                <label className="block text-sm font-medium">Phone</label>
-                <input
-                    type="text"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="block w-full p-2 border border-gray-300 rounded-md"
-                    required
-                />
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm font-medium">Phone</label>
+                    <input
+                        type="text"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                        required
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium">NIP</label>
+                    <input
+                        type="text"
+                        value={nip}
+                        onChange={(e) => setNip(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                        required
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium">Address</label>
+                    <input
+                        type="text"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                        required
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium">Contact Date</label>
+                    <input
+                        type="date"
+                        value={contactDate ? contactDate.substring(0, 10) : ""}
+                        onChange={(e) => setContactDate(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                        required
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium">Price FOD Colorless</label>
+                    <input
+                        type="number"
+                        value={priceColorless}
+                        onChange={(e) => setPriceColorless(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                        placeholder="zł/kg Colorless"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium">Price FOD Color</label>
+                    <input
+                        type="number"
+                        value={priceColor}
+                        onChange={(e) => setPriceColor(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                        placeholder="zł/kg Color"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium">FOD Type</label>
+                    <input
+                        type="text"
+                        value={typeUnknown}
+                        onChange={(e) => setTypeUnknown(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium">Price FOD Type Unknown</label>
+                    <input
+                        type="number"
+                        value={priceUnknown}
+                        onChange={(e) => setPriceUnknown(e.target.value)}
+                        className="block w-full p-2 border border-gray-300 rounded-md"
+                        placeholder="zł/kg"
+                    />
+                </div>
             </div>
-            <div>
-                <label className="block text-sm font-medium">NIP</label>
-                <input
-                    type="text"
-                    value={nip}
-                    onChange={(e) => setNip(e.target.value)}
-                    className="block w-full p-2 border border-gray-300 rounded-md"
-                    required
-                />
-            </div>
-            <div>
-                <label className="block text-sm font-medium">Address</label>
-                <input
-                    type="text"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    className="block w-full pt-4 border border-gray-300 rounded-md"
-                    required
-                />
-            </div>
-                                            {/* Contact Date */}
-            <div>
-                <label className="block text-sm font-medium">Contact Date</label>
-                <input
-                    type="date"
-                    value={contactDate ? contactDate.substring(0, 10) : ""}
-                    onChange={(e) => setContactDate(e.target.value)}
-                    className="block w-full pb-4 border border-gray-300 rounded-md"
-                    required
-                />
-            </div>
-                                            {/* Price FOD Colorless */}
-            <div>
-                <label className="block text-sm font-medium">Price FOD Colorless</label>
-                <input
-                    type="number"
-                    value={priceColorless}
-                    onChange={(e) => setPriceColorless(e.target.value)}
-                    className="block w-full p-2 border border-gray-300 rounded-md"
-                    placeholder="zł/kg Colorless"
-                />
-            </div>
-                                            {/* Price FOD Color */}
-            <div>
-                <label className="block text-sm font-medium">Price FOD Color</label>
-                <input
-                    type="number"
-                    value={priceColor}
-                    onChange={(e) => setPriceColor(e.target.value)}
-                    className="block w-full p-2 border border-gray-300 rounded-md"
-                    placeholder="zł/kg Color"
-                />
-            </div>
-                                        {/* Setting form for type unknown  */}
-            <div>
-                <label className="block text-sm font-medium">FOD Type:</label>
-                <input
-                type="text"
-                value={typeUnknown}
-                onChange={(e) => setTypeUnknown(e.target.value)}
-                className="block w-full p-2 border border-gray-300 rounded-md"
-                />
-                                        {/* Setting price for unknown type */}
-                <label className="block text-sm font-medium">Price FOD Type Unknown</label>
-                <input
-                    type="number"
-                    value={priceUnknown}
-                    onChange={(e) => setPriceUnknown(e.target.value)}
-                    className="block w-full p-2 border border-gray-300 rounded-md"
-                    placeholder="zł/kg"
-                />
-            </div>
-                                        {/* Form for notes */}
+            {/* Form for notes */}
             <div>
                 <label className="block text-sm font-medium">Notes</label>
                 <textarea
@@ -170,7 +169,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
                     className="block w-full p-2 border border-gray-300 rounded-md"
                 />
             </div>
-                                        {/* Submit button*/}
+            {/* Submit button*/}
             <button
                 type="submit"
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"

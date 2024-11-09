@@ -23,7 +23,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
     });
 
     return (
-        <div className="max-w-5xl max-h-max mx-auto mt-8">
+        <div className="max-w-5xl max-h-6 mx-auto mt-5">
             <ul className="space-y-4">
                 {sortedContractors.length > 0 ? (
                     sortedContractors.map((contractor) => {

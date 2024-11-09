@@ -11,10 +11,14 @@ import PrivateRoute from "./components/PrivateRoute";
 import HomePage from "./components/HomePage";
 import ErrorPage from "./components/ErrorPage";
 import ContractorDetails from "./components/ContractorDetalis";
+import "react-toastify/dist/ReactToastify.css";
+import {ToastContainer} from "react-toastify";
 
 const App: React.FC = () => {
   return (
     <Router>
+        {/* ToastContainer musi być tylko raz w drzewie komponentów */}
+        <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
         {/* Domyślna strona główna */}
         <Route path="/" element={<HomePage />} />

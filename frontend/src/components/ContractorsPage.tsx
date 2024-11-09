@@ -31,6 +31,7 @@ const ContractorsPage: React.FC = () => {
   const [filteredContractors, setFilteredContractors] = useState<Contractor[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingContractor, setEditingContractor] = useState<Contractor | null>(null);
+
   useEffect(() => {
     const loadContractors = async () => {
       try {
@@ -112,12 +113,12 @@ const ContractorsPage: React.FC = () => {
         <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-lg shadow-lg mb-6">
           <div className="flex justify-between items-center">
             <h1 className="text-3xl font-bold tracking-wide">Contractors Management</h1>
-            <LogoutButton/>
+            <LogoutButton />
           </div>
         </div>
 
-        {/* Search Field */}
-        <div className="my-6 flex items-center">
+        {/* Search Field - Sticky */}
+        <div className="sticky top-0 bg-white z-10 mb-6">
           <input
               type="text"
               placeholder="Search by company name"
@@ -129,7 +130,7 @@ const ContractorsPage: React.FC = () => {
 
         {/* Form and List of Contractors */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md sticky top-16 h-fit">
             <ContractorForm
                 contractor={editingContractor}
                 onAddContractor={handleAddContractor}
@@ -137,7 +138,7 @@ const ContractorsPage: React.FC = () => {
             />
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md overflow-y-auto max-h-screen">
             <ContractorsList
                 contractors={filteredContractors}
                 onDeleteContractor={handleDeleteContractor}

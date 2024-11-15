@@ -28,9 +28,13 @@ interface Contractor {
 
 const ContractorsPage: React.FC = () => {
   const [contractors, setContractors] = useState<Contractor[]>([]);
-  const [filteredContractors, setFilteredContractors] = useState<Contractor[]>([]);
+  const [filteredContractors, setFilteredContractors] = useState<Contractor[]>(
+    []
+  );
   const [searchTerm, setSearchTerm] = useState("");
-  const [editingContractor, setEditingContractor] = useState<Contractor | null>(null);
+  const [editingContractor, setEditingContractor] = useState<Contractor | null>(
+    null
+  );
 
   useEffect(() => {
     const loadContractors = async () => {
@@ -50,7 +54,7 @@ const ContractorsPage: React.FC = () => {
     setSearchTerm(term);
 
     const filtered = contractors.filter((contractor) =>
-        contractor.name.toLowerCase().includes(term)
+      contractor.name.toLowerCase().includes(term)
     );
 
     setFilteredContractors(filtered);
@@ -72,11 +76,11 @@ const ContractorsPage: React.FC = () => {
   const handleUpdateContractor = async (updatedContractor: Contractor) => {
     try {
       const updated = await updateContractor(
-          updatedContractor._id,
-          updatedContractor
+        updatedContractor._id,
+        updatedContractor
       );
       const updatedList = contractors.map((contractor) =>
-          contractor._id === updated._id ? updated : contractor
+        contractor._id === updated._id ? updated : contractor
       );
       setContractors(updatedList);
       setFilteredContractors(updatedList);
@@ -92,7 +96,7 @@ const ContractorsPage: React.FC = () => {
     try {
       await deleteContractor(id);
       const updatedList = contractors.filter(
-          (contractor) => contractor._id !== id
+        (contractor) => contractor._id !== id
       );
       setContractors(updatedList);
       setFilteredContractors(updatedList);
@@ -108,45 +112,48 @@ const ContractorsPage: React.FC = () => {
   };
 
   return (
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-6 rounded-lg shadow-lg mb-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold tracking-wide">Contractors Management</h1>
-            <LogoutButton />
-          </div>
+    <div className="container px-4 py-8 lg:mx-auto">
+      {/* Header */}
+      <div className="p-6 mb-6 text-white rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-indigo-600">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-bold tracking-wide">
+            Contractors Management
+          </h1>
+          <LogoutButton />
         </div>
+      </div>
 
-        {/* Search Field - Sticky */}
-        <div className="sticky top-0 bg-white z-10 mb-6">
-          <input
-              type="text"
-              placeholder="Search by company name"
-              value={searchTerm}
-              onChange={handleSearch}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+      {/* Search Field - Sticky */}
+      <div className="sticky top-0 z-10 mb-6 bg-white">
+        <input
+          type="text"
+          placeholder="Search by company name"
+          value={searchTerm}
+          onChange={handleSearch}
+          className="w-full p-3 transition duration-300 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Form and List of Contractors */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="p-8 bg-white rounded-lg shadow-lg top-16 h-fit">
+          <ContractorForm
+            contractor={editingContractor}
+            onAddContractor={handleAddContractor}
+            onUpdateContractor={handleUpdateContractor}
           />
         </div>
 
-        {/* Form and List of Contractors */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-md sticky top-16 h-fit">
-            <ContractorForm
-                contractor={editingContractor}
-                onAddContractor={handleAddContractor}
-                onUpdateContractor={handleUpdateContractor}
-            />
-          </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-md overflow-y-auto max-h-screen">
-            <ContractorsList
-                contractors={filteredContractors}
-                onDeleteContractor={handleDeleteContractor}
-                onEditContractor={handleEditContractor}
-            />
-          </div>
+        <div className="bg-white rounded-lg shadow-lg lg:p-8 lg:overflow-y-auto sm:overflow-y-auto sm:p-24">
+          <ContractorsList
+            contractors={filteredContractors}
+            onDeleteContractor={handleDeleteContractor}
+            onEditContractor={handleEditContractor}
+            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+          />
         </div>
       </div>
+    </div>
   );
 };
 

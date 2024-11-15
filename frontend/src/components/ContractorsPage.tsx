@@ -35,6 +35,7 @@ const ContractorsPage: React.FC = () => {
   const [editingContractor, setEditingContractor] = useState<Contractor | null>(
     null
   );
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const loadContractors = async () => {
@@ -111,6 +112,7 @@ const ContractorsPage: React.FC = () => {
     setEditingContractor(contractor);
   };
 
+
   return (
     <div className="container px-4 py-8 lg:mx-auto">
       {/* Header */}
@@ -123,7 +125,7 @@ const ContractorsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Search Field - Sticky */}
+      {/* Search Field */}
       <div className="sticky top-0 z-10 mb-6 bg-white">
         <input
           type="text"
@@ -134,17 +136,45 @@ const ContractorsPage: React.FC = () => {
         />
       </div>
 
-      {/* Form and List of Contractors */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="p-8 bg-white rounded-lg shadow-lg top-16 h-fit">
+      {/* Add Contractor Button for Mobile */}
+      <button
+        onClick={() => setIsSidebarOpen(true)}
+        className="fixed z-10 p-4 text-white bg-blue-600 rounded-full bottom-8 right-8 lg:hidden hover:bg-blue-400"
+      >
+        + Add Contractor
+      </button>
+
+      {/* Sidebar for Mobile */}
+      <div
+        className={`fixed top-0 right-0 z-20 w-3/4 h-full bg-white shadow-lg transform transition-transform ${
+          isSidebarOpen ? "translate-x-0" : "translate-x-full"
+        } lg:hidden`}
+      >
+        <div className="px-5 py-8">
+          <button
+            onClick={() => setIsSidebarOpen(false)}
+            className="px-8 py-2 mt-16 mb-10 text-lg font-bold bg-red-500 rounded-lg mt-26 hover:bg-red-300"
+          >
+            Close
+          </button>
           <ContractorForm
             contractor={editingContractor}
             onAddContractor={handleAddContractor}
             onUpdateContractor={handleUpdateContractor}
           />
         </div>
+      </div>
 
-        <div className="bg-white rounded-lg shadow-lg lg:p-8 lg:overflow-y-auto sm:overflow-y-auto sm:p-24">
+      {/* Desktop Layout */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="hidden p-8 bg-white rounded-lg shadow-lg lg:block top-16 h-fit">
+          <ContractorForm
+            contractor={editingContractor}
+            onAddContractor={handleAddContractor}
+            onUpdateContractor={handleUpdateContractor}
+          />
+        </div>
+        <div className="bg-white rounded-lg shadow-lg sm:mb-12 lg:p-8 lg:overflow-y-auto sm:overflow-y-auto sm:p-24">
           <ContractorsList
             contractors={filteredContractors}
             onDeleteContractor={handleDeleteContractor}

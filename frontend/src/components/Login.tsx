@@ -37,7 +37,7 @@ const Login: React.FC = () => {
 
   return (
       <div data-aos="zoom-up" className="login-container">
-        <h2 className="text-4xl pb-6 text-gray-700">Login</h2>
+        <h2 className="pb-6 text-4xl text-gray-700">Login</h2>
         {error && <p className="pb-2" style={{ color: "red" }}>{error}</p>}
         <form className="login-form" onSubmit={handleLogin}>
           <input
@@ -54,9 +54,9 @@ const Login: React.FC = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
           />
-          <button onClick={handleLogin} type="submit">Login</button>
+          <button className="loginBtn" onClick={handleLogin} type="submit">Login</button>
         </form>
-        <div className="register-footer text-center text-gray-600">
+        <div className="text-center text-gray-600 register-footer">
           <div className="pt-6">
             <p>Do not have an account? <a className="text-emerald-900" href="/register">Register</a></p>
           </div>

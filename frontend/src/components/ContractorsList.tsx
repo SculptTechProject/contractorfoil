@@ -107,22 +107,31 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                     </div>
 
                     {/* Przyciski */}
-                    <div className="flex flex-col space-y-3">
+                    <div className="flex flex-col items-center justify-center gap-2 mt-4 lg:flex-col lg:items-end">
+                      {/* Open in Maps Button */}
+                      <a
+                        href={`https://www.google.com/maps?q=${encodeURIComponent(
+                          contractor.address
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full px-4 py-2 text-sm font-semibold text-center text-blue-600 transition-all duration-200 ease-in-out bg-blue-100 border border-blue-500 rounded-lg lg:w-32 hover:bg-blue-200"
+                      >
+                        Open in Maps
+                      </a>
+                      
+                      {/* Details Button */}
                       <Link
                         to={`/contractors/${contractor._id}`}
-                        className="px-4 py-2 text-center text-white transition-all duration-200 ease-in-out bg-green-500 rounded-lg hover:bg-green-600"
+                        className="w-full px-4 py-2 text-sm font-semibold text-center text-white transition-all duration-200 ease-in-out bg-green-500 rounded-lg hover:bg-green-600 lg:w-32"
                       >
                         Details
                       </Link>
-                      <button
-                        onClick={() => onEditContractor(contractor)}
-                        className="px-4 py-2 text-center text-white transition-all duration-200 ease-in-out bg-blue-500 rounded-lg hover:bg-blue-600"
-                      >
-                        Edit
-                      </button>
+
+                      {/* Delete Button */}
                       <button
                         onClick={() => onDeleteContractor(contractor._id)}
-                        className="px-4 py-2 text-center text-white transition-all duration-200 ease-in-out bg-red-500 rounded-lg hover:bg-red-600"
+                        className="w-full px-4 py-2 text-sm font-semibold text-center text-white transition-all duration-200 ease-in-out bg-red-500 rounded-lg lg:w-32 hover:bg-red-600"
                       >
                         Delete
                       </button>

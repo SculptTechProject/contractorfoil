@@ -83,7 +83,7 @@ const Register: React.FC = () => {
 
     return (
         <div data-aos="zoom-up" className="register-container">
-            <h2 className="text-4xl pb-8 text-gray-700">Register</h2>
+            <h2 className="pb-8 text-4xl text-gray-700">Register</h2>
             {error && <p className="pb-5" style={{ color: "red" }}>{error}</p>}
             <form className="register-form" onSubmit={handleRegister}>
                 <input
@@ -131,7 +131,7 @@ const Register: React.FC = () => {
 
                 <button onClick={handleRegister} type="submit">Register</button>
             </form>
-            <div className="register-footer text-center text-gray-600">
+            <div className="text-center text-gray-600 register-footer">
                 <div className="pt-6">
                     <p>Already have an account? <a className="text-emerald-900" href="/login">Login</a></p>
                 </div>

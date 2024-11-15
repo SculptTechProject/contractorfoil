@@ -7,7 +7,8 @@ import Footer from "./Footer";
 import {FaDollarSign} from "react-icons/fa";
 import Bubble from "./Bubble";
 import {BiCar} from "react-icons/bi";
-import {FiPhoneCall, FiShield, FiTrendingUp, FiUserCheck, FiUsers} from "react-icons/fi";
+import { FiPhoneCall, FiShield, FiTrendingUp, FiUserCheck, FiUsers } from "react-icons/fi";
+import "../CSS/HomePage.css";
 
 interface BubbleType {
     x: string;
@@ -132,7 +133,8 @@ const LandingPage = () => {
             className="mb-6 text-3xl font-extrabold tracking-wider text-teal-900 md:text-5xl lg:text-6xl"
             data-aos="fade-down"
           >
-            Welcome to ContractorFoil
+            Welcome to{" "}
+            <span className="animate-colorChange">ContractorFoil</span>
           </h1>
           <p
             className="max-w-lg mb-10 text-lg text-gray-800 md:text-xl lg:text-2xl"

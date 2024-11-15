@@ -1,27 +1,19 @@
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       keyframes: {
-        bounce: {
-          '0%, 100%': {
-            transform: 'translateY(0)',
-            opacity: '1',
-          },
-          '50%': {
-            transform: 'translateY(-20px)',
-            opacity: '0.7',
-          },
+        colorChange: {
+          "0%": { color: "#831C80FF" }, 
+          "33%": { color: "#3F10A5FF" }, 
+          "66%": { color: "#13881BFF" }, 
+          "100%": { color: "#831C80FF" }, 
         },
       },
       animation: {
-        bounce: 'bounce 1s infinite',
-        bounce200: 'bounce 1s infinite 200ms',
-        bounce400: 'bounce 1s infinite 400ms',
+        colorChange: "colorChange 10s ease infinite",
       },
     },
   },
   plugins: [],
-}
+};

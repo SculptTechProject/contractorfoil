@@ -12,22 +12,32 @@ const generateToken = (id) => {
 // Rejestracja użytkownika
 const registerUser = async (req, res) => {
   const { email, password, captchaToken } = req.body;
+  const useRecaptcha = process.env.USE_RECAPTCHA === "true";
 
-  if (!captchaToken) {
-    return res.status(400).json({ message: "Captcha is required" });
-  }
-
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
-  const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}`;
-
-  try {
-    const response = await axios.post(verifyUrl);
-    const { success, score } = response.data;
-
-    if (!success || score < 0.5) {
-      return res.status(400).json({ message: "Captcha verification failed" });
+  if (useRecaptcha) {
+    if (!captchaToken) {
+      return res.status(400).json({ message: "Captcha is required" });
     }
 
+    const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${captchaToken}`;
+
+    try {
+      const response = await axios.post(verifyUrl);
+      const { success, score } = response.data;
+
+      if (!success || score < 0.5) {
+        return res.status(400).json({ message: "Captcha verification failed" });
+      }
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Captcha verification failed", error });
+    }
+  }
+
+  // Kontynuuj z rejestracją użytkownika
+  try {
     // Sprawdź, czy użytkownik już istnieje
     const userExists = await User.findOne({ email });
 

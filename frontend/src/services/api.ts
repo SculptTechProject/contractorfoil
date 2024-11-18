@@ -1,4 +1,4 @@
-const API_URL = "https://contractorfoil.onrender.com"/*"http://localhost:5173"*/;
+const API_URL = /* "https://contractorfoil.onrender.com" */"http://localhost:5173";
 
 // Function to get JWT token from localStorage
 const getToken = () => {
@@ -15,12 +15,28 @@ const getHeaders = () => {
 };
 
 // Register new user
-export const registerUser = async (email: string, password: string, captchaToken: string) => {
-  const response = await fetch(`${API_URL}/api/auth/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password, captchaToken }), // Wysyłanie email, password i captchaToken
-  });
+export const registerUser = async (
+  email: string,
+  password: string,
+  captchaToken?: string
+) => {
+  const bodyData: any = { email, password };
+
+  // Sprawdzenie, czy używać reCAPTCHA
+  const useRecaptcha = process.env.REACT_APP_USE_RECAPTCHA === "true";
+
+  if (useRecaptcha) {
+    bodyData.captchaToken = captchaToken;
+  }
+
+  const response = await fetch(
+    `${process.env.REACT_APP_API_URL}/api/auth/register`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bodyData),
+    }
+  );
 
   if (!response.ok) {
     const errorMessage = await response.text();

@@ -28,6 +28,7 @@ interface Contractor {
 
 const ContractorsPage: React.FC = () => {
   const [contractors, setContractors] = useState<Contractor[]>([]);
+  const [userName, setUserName] = useState<string | null>(null);
   const [filteredContractors, setFilteredContractors] = useState<Contractor[]>(
     []
   );
@@ -112,6 +113,13 @@ const ContractorsPage: React.FC = () => {
     setEditingContractor(contractor);
   };
 
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName");
+    if (storedName) {
+      setUserName(storedName);
+    }
+  }, []);
+
 
   return (
     <div className="container px-4 py-8 lg:mx-auto">
@@ -121,6 +129,9 @@ const ContractorsPage: React.FC = () => {
           <h1 className="text-3xl font-bold tracking-wide">
             Contractors Management
           </h1>
+          {userName && (
+            <p className="text-lg font-semibold">Welcome, {userName}!</p>
+          )}
           <LogoutButton />
         </div>
       </div>

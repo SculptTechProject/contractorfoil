@@ -1,4 +1,4 @@
-const API_URL = /* "https://contractorfoil.onrender.com" */"http://localhost:5173";
+const API_URL =  "https://contractorfoil.onrender.com" /* "http://localhost:5173" */;
 
 // Function to get JWT token from localStorage
 const getToken = () => {
@@ -16,11 +16,12 @@ const getHeaders = () => {
 
 // Register new user
 export const registerUser = async (
+  name: string,
   email: string,
   password: string,
   captchaToken?: string
 ) => {
-  const bodyData: any = { email, password };
+  const bodyData: any = { name, email, password };
 
   // Sprawdzenie, czy używać reCAPTCHA
   const useRecaptcha = process.env.REACT_APP_USE_RECAPTCHA === "true";
@@ -29,14 +30,11 @@ export const registerUser = async (
     bodyData.captchaToken = captchaToken;
   }
 
-  const response = await fetch(
-    `${process.env.REACT_APP_API_URL}/api/auth/register`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(bodyData),
-    }
-  );
+  const response = await fetch(`${API_URL}/api/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(bodyData),
+  });
 
   if (!response.ok) {
     const errorMessage = await response.text();
@@ -61,6 +59,38 @@ export const loginUser = async (email: string, password: string) => {
 
   return await response.json();
 };
+
+export const getUserNameFromToken = (): string | null => {
+  const token = getToken();
+  if (!token) {
+    return null;
+  }
+
+  try {
+    // Podziel token na części (nagłówek, payload, podpis)
+    const base64Url = token.split(".")[1];
+    if (!base64Url) {
+      throw new Error("Invalid token format");
+    }
+
+    // Rozkoduj Base64 (bez paddingu)
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+
+    // Parsuj dane payload jako JSON
+    const payload = JSON.parse(jsonPayload);
+    return payload.name || null; // Zakładając, że imię użytkownika jest zapisane jako `name`
+  } catch (error) {
+    console.error("Failed to decode token:", error);
+    return null;
+  }
+};
+
 
 // Logout user
 export const logoutUser = () => {
@@ -122,14 +152,19 @@ export const fetchContractorById = async (id: string) => {
 
   if (!response.ok) {
     const errorMessage = await response.text();
-    throw new Error(`Failed to fetch contractor with ID ${id}: ${errorMessage}`);
+    throw new Error(
+      `Failed to fetch contractor with ID ${id}: ${errorMessage}`
+    );
   }
 
   return await response.json();
 };
 
 // Update contractor
-export const updateContractor = async (contractorId: string, contractorData: any) => {
+export const updateContractor = async (
+  contractorId: string,
+  contractorData: any
+) => {
   if (!contractorId) {
     throw new Error("Contractor ID is required for update");
   }

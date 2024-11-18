@@ -11,7 +11,7 @@ const generateToken = (id) => {
 
 // Rejestracja użytkownika
 const registerUser = async (req, res) => {
-  const { email, password, captchaToken } = req.body;
+  const { name, email, password, captchaToken } = req.body;
   const useRecaptcha = process.env.USE_RECAPTCHA === "true";
 
   if (useRecaptcha) {
@@ -47,12 +47,14 @@ const registerUser = async (req, res) => {
 
     // Utwórz nowego użytkownika
     const user = await User.create({
+      name,
       email,
       password,
     });
 
     res.status(201).json({
       _id: user._id,
+      name: user.name,
       email: user.email,
       token: generateToken(user._id),
     });
@@ -63,7 +65,7 @@ const registerUser = async (req, res) => {
 
 // Logowanie użytkownika
 const loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     // Znajdź użytkownika po emailu
@@ -73,6 +75,7 @@ const loginUser = async (req, res) => {
     if (user && (await user.matchPassword(password))) {
       res.status(200).json({
         _id: user._id,
+        name: user.name,
         email: user.email,
         token: generateToken(user._id),
       });

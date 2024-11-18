@@ -7,6 +7,7 @@ import "aos/dist/aos.css";
 import "../CSS/Register.css";
 
 const Register: React.FC = () => {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -57,7 +58,7 @@ const Register: React.FC = () => {
             const captchaToken = await executeRecaptcha("register");
 
             // Wyślij token captcha na backend
-            const data = await registerUser(email, password, captchaToken);
+            const data = await registerUser(name, email, password, captchaToken);
 
             if (data.error && data.error === "User already exists") {
                 setError("This email is already registered.");
@@ -86,6 +87,13 @@ const Register: React.FC = () => {
             <h2 className="pb-8 text-4xl text-gray-700">Register</h2>
             {error && <p className="pb-5" style={{ color: "red" }}>{error}</p>}
             <form className="register-form" onSubmit={handleRegister}>
+                <input
+                    type="text"
+                    placeholder="What's your name? :)"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
                 <input
                     type="email"
                     placeholder="Email"

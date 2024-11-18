@@ -6,7 +6,7 @@ module.exports = {
         colorChange: {
           "0%": { color: "#831C80FF" }, 
           "33%": { color: "#3F10A5FF" }, 
-          "66%": { color: "#13881BFF" }, 
+          "66%": { color: "#138088FF" }, 
           "100%": { color: "#831C80FF" }, 
         },
       },

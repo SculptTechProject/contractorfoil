@@ -118,7 +118,7 @@ const LandingPage = () => {
         <header className="absolute z-50 top-4 right-4">
           <button
             onClick={handleLoginClick}
-            className="px-4 py-2 font-bold text-teal-900 transition-transform transform bg-yellow-300 rounded-full hover:bg-yellow-400 hover:scale-110"
+            className="px-4 py-2 font-bold text-teal-900 transition-transform transform bg-yellow-300 rounded-full shadow-lg hover:bg-yellow-400 hover:scale-110"
           >
             Log In
           </button>
@@ -143,7 +143,7 @@ const LandingPage = () => {
             Manage contractors with efficiency and modern tools.
           </p>
           <button
-            className="z-50 px-8 py-3 mb-6 font-bold text-teal-900 transition-transform transform bg-yellow-300 rounded-full md:mb-10 hover:bg-yellow-400 hover:scale-110"
+            className="z-50 px-8 py-3 mb-6 font-bold text-teal-900 transition-transform transform bg-yellow-300 rounded-full shadow-lg md:mb-10 hover:bg-yellow-400 hover:scale-110"
             data-aos="zoom-in"
             onClick={handleGetStartedClick}
           >
@@ -163,12 +163,12 @@ const LandingPage = () => {
 
         {/* Call to Action */}
         <section
-          className="relative flex flex-col items-center justify-center min-h-screen overflow-hidden text-center text-white md:py-20 bg-gradient-to-r from-indigo-600 to-purple-600 sm:py-10"
+          className="relative flex flex-col items-center justify-center min-h-screen pb-12 overflow-hidden text-center text-white bg-gradient-to-r from-indigo-600 to-purple-600"
           ref={targetSectionRef}
         >
           {/* Tytuł i opis */}
           <h2
-            className="relative z-10 mb-6 text-4xl font-bold md:text-5xl"
+            className="relative z-10 mb-6 text-3xl font-bold md:text-3xl"
             data-aos="fade-up"
           >
             Take Control of Contractor Management
@@ -280,7 +280,7 @@ const LandingPage = () => {
                 <div className="flex items-center space-x-6">
                   <div
                     data-aos="fade-right"
-                    className="flex items-center justify-center w-24 h-12 font-bold text-white bg-teal-500 rounded-full"
+                    className="flex items-center justify-center w-24 h-12 px-2 font-bold text-white bg-teal-500 rounded-full"
                   >
                     10.06.2023
                   </div>
@@ -314,7 +314,7 @@ const LandingPage = () => {
                   </div>
                   <div
                     data-aos="fade-left"
-                    className="flex items-center justify-center w-24 h-12 font-bold text-white bg-teal-500 rounded-full"
+                    className="flex items-center justify-center w-24 h-12 px-2 font-bold text-white bg-teal-500 rounded-full"
                   >
                     21.11.2023
                   </div>
@@ -323,7 +323,7 @@ const LandingPage = () => {
                 <div className="flex items-center space-x-6">
                   <div
                     data-aos="fade-right"
-                    className="flex items-center justify-center w-24 h-12 font-bold text-white bg-teal-500 rounded-full"
+                    className="flex items-center justify-center w-24 h-12 px-2 font-bold text-white bg-teal-500 rounded-full"
                   >
                     14.04.2024
                   </div>
@@ -357,7 +357,7 @@ const LandingPage = () => {
                   </div>
                   <div
                     data-aos="fade-left"
-                    className="flex items-center justify-center w-24 h-12 font-bold text-white bg-teal-500 rounded-full"
+                    className="flex items-center justify-center w-24 h-12 px-2 font-bold text-white bg-teal-500 rounded-full"
                   >
                     28.07.2024
                   </div>
@@ -557,7 +557,7 @@ const LandingPage = () => {
         </section>
 
         {/* Sekcja kontaktowa */}
-        <section className="py-10 text-center text-white sm:py-8 bg-gradient-to-br from-blue-600 to-indigo-600">
+        <section className="px-4 py-10 text-center text-white shadow-lg sm:py-8 bg-gradient-to-br from-blue-600 to-indigo-600">
           <h2
             className="mb-8 text-3xl font-bold sm:text-2xl"
             data-aos="fade-up"

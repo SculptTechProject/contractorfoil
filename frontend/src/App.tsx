@@ -12,7 +12,8 @@ import HomePage from "./components/HomePage";
 import ErrorPage from "./components/ErrorPage";
 import ContractorDetails from "./components/ContractorDetalis";
 import "react-toastify/dist/ReactToastify.css";
-import {ToastContainer} from "react-toastify";
+import { ToastContainer } from "react-toastify";
+import Dashboard from "./components/Dashboard"
 
 const App: React.FC = () => {
   return (
@@ -32,8 +33,17 @@ const App: React.FC = () => {
           path="/dashboard"
           element={
             <PrivateRoute>
+                <Dashboard />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/contractors"
+          element={
+            <PrivateRoute>
               <div>
-                <ContractorsPage />
+                <ContractorsPage/>
               </div>
             </PrivateRoute>
           }

@@ -10,6 +10,10 @@ import ContractorsList from "./ContractorsList";
 import LogoutButton from "./LogoutButton";
 import { toast } from "react-toastify";
 import useDate from "../hooks/useDate";
+import { useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 interface Contractor {
   _id: string;
@@ -28,6 +32,7 @@ interface Contractor {
 }
 
 const ContractorsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [contractors, setContractors] = useState<Contractor[]>([]);
   const [userName, setUserName] = useState<string | null>(null);
   const [filteredContractors, setFilteredContractors] = useState<Contractor[]>(
@@ -38,8 +43,8 @@ const ContractorsPage: React.FC = () => {
     null
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { date, wish } = useDate(); // hooks for useDate
-    
+  const { date } = useDate(); // hooks for useDate
+
   useEffect(() => {
     const loadContractors = async () => {
       try {
@@ -113,9 +118,10 @@ const ContractorsPage: React.FC = () => {
 
   const handleEditContractor = (contractor: Contractor) => {
     setEditingContractor(contractor);
+    setIsSidebarOpen(true); // Otwieramy panel boczny przy edycji
   };
 
-  // get name of user
+  // Pobierz nazwę użytkownika
   useEffect(() => {
     const storedName = localStorage.getItem("userName");
     if (storedName) {
@@ -123,85 +129,101 @@ const ContractorsPage: React.FC = () => {
     }
   }, []);
 
+  // Nawigacja do dashboardu
+  const goToDashboard = () => {
+    navigate("/dashboard");
+  };
+
+  // Inicjalizacja AOS
+  useEffect(() => {
+    AOS.init({ duration: 1000 });
+  }, []);
+
   return (
-    <div className="container px-4 py-8 lg:mx-auto">
-      {/* Header */}
-      <div className="p-6 mb-6 text-white rounded-lg shadow-lg bg-gradient-to-r from-blue-500 to-indigo-600">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold tracking-wide">
-            Contractors Management
-          </h1>
-          <LogoutButton />
+    <div className="flex flex-col min-h-screen bg-gradient-to-r from-sky-400 to-blue-500">
+      {/* Nagłówek */}
+      <div className="flex items-center justify-between p-6 text-white">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={goToDashboard}
+            className="p-2 transition duration-300 bg-white rounded-full bg-opacity-20 hover:bg-opacity-40"
+          >
+            <FaArrowLeft />
+          </button>
+          <h1 className="text-3xl font-bold">Contractors Management</h1>
         </div>
+        <LogoutButton />
       </div>
-      <div className="flex flex-col items-center justify-center">
-        {userName && (
-          <p className="box-border pb-2 text-lg font-semibold text-gray-800 md:text-3xl">
-            {wish}, {userName}!
-          </p>
-        )}
-        <p className="pb-5 font-semibold text-gray-600 text-md md:text-xl">
-          Today is {date}
+
+      {/* Data i podpis */}
+      <div className="mb-4 text-center text-white" data-aos="fade-down">
+        <p className="text-xl">
+          {date} | Signed in as {userName}
         </p>
       </div>
-      {/* Search Field */}
-      <div className="sticky top-0 z-10 mb-6 bg-white">
-        <input
-          type="text"
-          placeholder="Search by company name"
-          value={searchTerm}
-          onChange={handleSearch}
-          className="w-full p-3 transition duration-300 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
 
-      {/* Add Contractor Button for Mobile */}
-      <button
-        onClick={() => setIsSidebarOpen(true)}
-        className="fixed z-10 p-4 text-white bg-blue-600 rounded-full bottom-8 right-8 lg:hidden hover:bg-blue-400"
-      >
-        + Add Contractor
-      </button>
+      {/* Treść */}
+      <div className="flex flex-col flex-grow lg:flex-row">
+        {/* Lista kontrahentów */}
+        <div className="flex-1 p-6 overflow-y-auto">
+          {/* Pasek wyszukiwania */}
+          <div className="flex items-center mb-6" data-aos="fade-down">
+            <div className="relative w-full">
+              <input
+                type="text"
+                placeholder="Search by company name"
+                value={searchTerm}
+                onChange={handleSearch}
+                className="w-full py-2 pl-10 pr-4 rounded-full shadow focus:outline-none"
+              />
+              <FaArrowLeft className="absolute text-gray-500 left-3 top-3" />
+            </div>
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="p-3 ml-4 transition duration-300 bg-white rounded-full bg-opacity-20 hover:bg-opacity-40 lg:invisible hover:bg-sky-300"
+            >
+              + Add
+            </button>
+          </div>
 
-      {/* Sidebar for Mobile */}
-      <div
-        className={`fixed top-0 right-0 z-20 w-3/4 h-full bg-white shadow-lg transform transition-transform ${
-          isSidebarOpen ? "translate-x-0" : "translate-x-full"
-        } lg:hidden`}
-      >
-        <div className="px-5 py-8">
-          <button
-            onClick={() => setIsSidebarOpen(false)}
-            className="px-8 py-2 mt-16 mb-10 text-lg font-bold bg-red-500 rounded-lg mt-26 hover:bg-red-300"
-          >
-            Close
-          </button>
-          <ContractorForm
-            contractor={editingContractor}
-            onAddContractor={handleAddContractor}
-            onUpdateContractor={handleUpdateContractor}
-          />
+          {/* Lista kontrahentów */}
+          <div data-aos="fade-up">
+            <ContractorsList
+              contractors={filteredContractors}
+              onDeleteContractor={handleDeleteContractor}
+              onEditContractor={handleEditContractor}
+            />
+          </div>
+        </div>
+
+        {/* Panel boczny */}
+        <div
+          className={`fixed lg:static top-0 right-0 z-20 w-full lg:w-1/3 h-full bg-white shadow-lg transform transition-transform ${
+            isSidebarOpen
+              ? "translate-x-0"
+              : "translate-x-full lg:translate-x-0"
+          }`}
+        >
+          <div className="h-full p-6 overflow-y-auto">
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-2 mb-4 text-white transition duration-300 bg-red-500 rounded-full lg:hidden hover:bg-red-600"
+            >
+              Close
+            </button>
+            <ContractorForm
+              contractor={editingContractor}
+              onAddContractor={handleAddContractor}
+              onUpdateContractor={handleUpdateContractor}
+            />
+          </div>
         </div>
       </div>
 
-      {/* Desktop Layout */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="hidden p-8 bg-white rounded-lg shadow-lg lg:block top-16 h-fit">
-          <ContractorForm
-            contractor={editingContractor}
-            onAddContractor={handleAddContractor}
-            onUpdateContractor={handleUpdateContractor}
-          />
-        </div>
-        <div className="bg-white rounded-lg shadow-lg sm:mb-12 lg:p-8 lg:overflow-y-auto sm:overflow-y-auto sm:p-24">
-          <ContractorsList
-            contractors={filteredContractors}
-            onDeleteContractor={handleDeleteContractor}
-            onEditContractor={handleEditContractor}
-            className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-          />
-        </div>
-      </div>
+      {/* Stopka */}
+      <footer className="p-4 text-center text-white">
+        &copy; {new Date().getFullYear()} ContractorFoil
+      </footer>
     </div>
   );
 };

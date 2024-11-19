@@ -98,7 +98,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     // Dodaj początkowe bąbelki
-    const initialBubbles = Array.from({ length: 30 }, createBubble);
+    const initialBubbles = Array.from({ length: 35 }, createBubble);
     setBubbles(initialBubbles);
   }, []);
 

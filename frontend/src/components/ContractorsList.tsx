@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../CSS/ContractorList.css";
+import { FaMapMarkerAlt, FaInfoCircle, FaTrashAlt } from "react-icons/fa";
 
 interface Contractor {
   _id: string;
@@ -22,7 +22,6 @@ interface ContractorsListProps {
   contractors: Contractor[];
   onDeleteContractor: (id: string) => void;
   onEditContractor: (contractor: Contractor) => void;
-  className: string;
 }
 
 const ContractorsList: React.FC<ContractorsListProps> = ({
@@ -36,115 +35,121 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
   const sortedContractors = contractors.sort((a, b) => {
     const dateA = new Date(a.contactDate).getTime();
     const dateB = new Date(b.contactDate).getTime();
-    return dateA - dateB; // Im mniejsza wartość, tym wyżej w liście
+    return dateA - dateB;
   });
 
   return (
-    <div className="max-w-5xl mx-auto mt-5 max-h-6">
-      <ul className="space-y-4">
-        {sortedContractors.length > 0 ? (
-          sortedContractors.map((contractor) => {
+    <div className="px-4 mx-auto mt-5 max-w-7xl">
+      {sortedContractors.length > 0 ? (
+        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {sortedContractors.map((contractor) => {
             const contactDate = new Date(contractor.contactDate);
             const timeDifference = contactDate.getTime() - today.getTime();
             const daysLeft = Math.ceil(timeDifference / (1000 * 3600 * 24));
 
-            const backgroundColor = daysLeft <= 4 ? "bg-red-100" : "bg-white";
-            const borderColor =
-              daysLeft <= 4 ? "border-red-400" : "border-gray-300";
+            const isUrgent = daysLeft <= 4;
 
             return (
-              <li
-                className={`p-4 border-l-4 shadow-md rounded-lg ${backgroundColor} ${borderColor}`}
+              <div
                 key={contractor._id}
+                className={`bg-white shadow-md rounded-lg overflow-hidden ${
+                  isUrgent
+                    ? "border-l-4 border-red-500"
+                    : "border border-gray-200"
+                }`}
               >
-                <div className="w-full p-4 mx-auto rounded-lg max-w-7xl">
-                  <div className="grid items-start gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                    {/* Informacje o kontrahencie */}
-                    <div className="col-span-2">
-                      <h3 className="mb-2 text-lg font-semibold">
-                        {contractor.name}
-                      </h3>
-                      <p className="text-sm text-gray-500">
-                        <strong>NIP:</strong> {contractor.nip}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        <strong>Contact:</strong> {contractor.phone}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        <strong>Address:</strong> {contractor.address}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        <strong>Price FOD Colorless:</strong>{" "}
-                        {contractor.priceColorless
-                          ? `${contractor.priceColorless.toFixed(2)} zł/kg`
-                          : "No price"}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        <strong>Price FOD Color:</strong>{" "}
-                        {contractor.priceColor
-                          ? `${contractor.priceColor.toFixed(2)} zł/kg`
-                          : "No price"}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        <strong>
-                          {contractor.typeUnknown
-                            ? `${contractor.typeUnknown.toString()}`
-                            : "No type"}
-                          :
-                        </strong>{" "}
+                <div className="flex flex-col h-full p-6">
+                  {/* Nazwa kontrahenta */}
+                  <h3 className="mb-2 text-xl font-semibold text-gray-800">
+                    {contractor.name}
+                  </h3>
+
+                  {/* Szczegóły kontrahenta */}
+                  <div className="flex-grow mb-4 text-sm text-gray-600">
+                    <p>
+                      <span className="font-medium">NIP:</span> {contractor.nip}
+                    </p>
+                    <p>
+                      <span className="font-medium">Contact:</span>{" "}
+                      {contractor.phone}
+                    </p>
+                    <p>
+                      <span className="font-medium">Address:</span>{" "}
+                      {contractor.address}
+                    </p>
+                    <p>
+                      <span className="font-medium">Price FOD Colorless:</span>{" "}
+                      {contractor.priceColorless
+                        ? `${contractor.priceColorless.toFixed(2)} zł/kg`
+                        : "No price"}
+                    </p>
+                    <p>
+                      <span className="font-medium">Price FOD Color:</span>{" "}
+                      {contractor.priceColor
+                        ? `${contractor.priceColor.toFixed(2)} zł/kg`
+                        : "No price"}
+                    </p>
+                    {contractor.typeUnknown && (
+                      <p>
+                        <span className="font-medium">
+                          {contractor.typeUnknown}:
+                        </span>{" "}
                         {contractor.priceUnknown
                           ? `${contractor.priceUnknown.toFixed(2)} zł/kg`
                           : "No price"}
                       </p>
-                      <p className="text-sm text-gray-500">
-                        <strong>Date:</strong>{" "}
-                        {contactDate.toLocaleDateString("pl-PL")}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        <strong>Notes:</strong>{" "}
-                        {contractor.notes || "No notes available"}
-                      </p>
-                    </div>
+                    )}
+                    <p>
+                      <span className="font-medium">Date:</span>{" "}
+                      {contactDate.toLocaleDateString("pl-PL")}
+                    </p>
+                    <p>
+                      <span className="font-medium">Notes:</span>{" "}
+                      {contractor.notes || "No notes available"}
+                    </p>
+                  </div>
 
-                    {/* Przyciski */}
-                    <div className="flex flex-col items-center justify-center gap-2 mt-4 lg:flex-col lg:items-end">
-                      {/* Open in Maps Button */}
-                      <a
-                        href={`https://www.google.com/maps?q=${encodeURIComponent(
-                          contractor.address
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full px-4 py-2 text-sm font-semibold text-center text-blue-600 transition-all duration-200 ease-in-out bg-blue-100 border border-blue-500 rounded-lg lg:w-32 hover:bg-blue-200"
-                      >
-                        Open in Maps
-                      </a>
-                      
-                      {/* Details Button */}
-                      <Link
-                        to={`/contractors/${contractor._id}`}
-                        className="w-full px-4 py-2 text-sm font-semibold text-center text-white transition-all duration-200 ease-in-out bg-green-500 rounded-lg hover:bg-green-600 lg:w-32"
-                      >
-                        Details
-                      </Link>
+                  {/* Przyciski akcji */}
+                  <div className="flex items-center justify-between mt-4">
+                    {/* Przycisk "Open in Maps" */}
+                    <a
+                      href={`https://www.google.com/maps?q=${encodeURIComponent(
+                        contractor.address
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center px-3 py-2 text-sm font-medium text-blue-600 transition duration-200 border border-blue-600 rounded-md hover:bg-blue-100"
+                    >
+                      <FaMapMarkerAlt className="mr-2" />
+                      Map
+                    </a>
 
-                      {/* Delete Button */}
-                      <button
-                        onClick={() => onDeleteContractor(contractor._id)}
-                        className="w-full px-4 py-2 text-sm font-semibold text-center text-white transition-all duration-200 ease-in-out bg-red-500 rounded-lg lg:w-32 hover:bg-red-600"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {/* Przycisk "Details" */}
+                    <Link
+                      to={`/contractors/${contractor._id}`}
+                      className="flex items-center px-3 py-2 text-sm font-medium text-green-600 transition duration-200 border border-green-600 rounded-md hover:bg-green-100"
+                    >
+                      <FaInfoCircle className="mr-2" />
+                      Details
+                    </Link>
+
+                    {/* Przycisk "Delete" */}
+                    <button
+                      onClick={() => onDeleteContractor(contractor._id)}
+                      className="flex items-center px-3 py-2 text-sm font-medium text-red-600 transition duration-200 bg-red-200 border border-red-600 rounded-md hover:bg-red-100"
+                    >
+                      <FaTrashAlt className="mr-2" />
+                      Delete
+                    </button>
                   </div>
                 </div>
-              </li>
+              </div>
             );
-          })
-        ) : (
-          <p className="text-center text-gray-500">No contractors found.</p>
-        )}
-      </ul>
+          })}
+        </div>
+      ) : (
+        <p className="text-center text-gray-500">No contractors found.</p>
+      )}
     </div>
   );
 };

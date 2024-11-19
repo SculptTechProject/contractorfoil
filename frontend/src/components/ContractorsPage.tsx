@@ -157,7 +157,7 @@ const ContractorsPage: React.FC = () => {
 
       {/* Data i podpis */}
       <div className="mb-4 text-center text-white" data-aos="fade-down">
-        <p className="text-xl">
+        <p className="text-xl sm:text-lg">
           {date} | Signed in as {userName}
         </p>
       </div>

@@ -146,7 +146,7 @@ const ContractorsPage: React.FC = () => {
         <div className="flex items-center space-x-4">
           <button
             onClick={goToDashboard}
-            className="p-2 transition duration-300 bg-white rounded-full bg-opacity-20 hover:bg-opacity-40"
+            className="p-2 transition duration-300 bg-white rounded-full bg-opacity-20 hover:bg-opacity-40 hover:bg-sky-200"
           >
             <FaArrowLeft />
           </button>
@@ -198,7 +198,7 @@ const ContractorsPage: React.FC = () => {
 
         {/* Panel boczny */}
         <div
-          className={`fixed lg:static top-0 right-0 z-20 w-full lg:w-1/3 h-full bg-white shadow-lg transform transition-transform ${
+          className={`fixed lg:static top-0 right-0 z-20 w-full lg:w-1/3 h-full shadow-lg transform transition-transform ${
             isSidebarOpen
               ? "translate-x-0"
               : "translate-x-full lg:translate-x-0"

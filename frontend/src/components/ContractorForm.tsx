@@ -108,7 +108,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
   };
 
     return (
-      <div className="px-6 py-16 bg-white rounded-lg shadow mt-15">
+      <div className="px-6 py-16 bg-white rounded-lg drop-shadow-2xl mt-15">
         <form onSubmit={handleSubmit} className="space-y-6" data-aos="fade-up">
           <h2 className="mb-4 text-2xl font-bold text-gray-800">
             {contractor ? "Edit Contractor" : "Add Contractor"}
@@ -245,7 +245,7 @@ const ContractorForm: React.FC<ContractorFormProps> = ({
           </div>
           <button
             type="submit"
-            className="flex items-center justify-center w-full px-4 py-4 text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="flex items-center justify-center w-full px-4 py-4 text-white transition-all bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             {contractor ? (
               <>

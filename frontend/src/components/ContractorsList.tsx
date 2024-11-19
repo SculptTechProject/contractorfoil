@@ -41,7 +41,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
   return (
     <div className="px-4 mx-auto mt-5 max-w-7xl">
       {sortedContractors.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
           {sortedContractors.map((contractor) => {
             const contactDate = new Date(contractor.contactDate);
             const timeDifference = contactDate.getTime() - today.getTime();
@@ -54,7 +54,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                 key={contractor._id}
                 className={`bg-white shadow-md rounded-lg overflow-hidden ${
                   isUrgent
-                    ? "border-l-4 border-red-500"
+                    ? "border-l-4 border-red-500 bg-red-100"
                     : "border border-gray-200"
                 }`}
               >
@@ -65,7 +65,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
                   </h3>
 
                   {/* Szczegóły kontrahenta */}
-                  <div className="flex-grow mb-4 text-sm text-gray-600">
+                  <div className="flex-grow mb-4 text-gray-600 text-md">
                     <p>
                       <span className="font-medium">NIP:</span> {contractor.nip}
                     </p>

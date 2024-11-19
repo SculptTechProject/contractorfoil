@@ -95,6 +95,7 @@ export const getUserNameFromToken = (): string | null => {
 // Logout user
 export const logoutUser = () => {
   localStorage.removeItem("userToken"); // Remove JWT token from localStorage
+  localStorage.removeItem("userName"); // Remove userName token from localStorage
 };
 
 // Fetch all contractors

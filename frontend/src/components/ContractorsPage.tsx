@@ -9,6 +9,7 @@ import ContractorForm from "./ContractorForm";
 import ContractorsList from "./ContractorsList";
 import LogoutButton from "./LogoutButton";
 import { toast } from "react-toastify";
+import useDate from "../hooks/useDate";
 
 interface Contractor {
   _id: string;
@@ -37,7 +38,8 @@ const ContractorsPage: React.FC = () => {
     null
   );
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  const { date, wish } = useDate(); // hooks for useDate
+    
   useEffect(() => {
     const loadContractors = async () => {
       try {
@@ -113,13 +115,13 @@ const ContractorsPage: React.FC = () => {
     setEditingContractor(contractor);
   };
 
+  // get name of user
   useEffect(() => {
     const storedName = localStorage.getItem("userName");
     if (storedName) {
       setUserName(storedName);
     }
   }, []);
-
 
   return (
     <div className="container px-4 py-8 lg:mx-auto">
@@ -129,13 +131,19 @@ const ContractorsPage: React.FC = () => {
           <h1 className="text-3xl font-bold tracking-wide">
             Contractors Management
           </h1>
-          {userName && (
-            <p className="text-lg font-semibold">Welcome, {userName}!</p>
-          )}
           <LogoutButton />
         </div>
       </div>
-
+      <div className="flex flex-col items-center justify-center">
+        {userName && (
+          <p className="box-border pb-2 text-lg font-semibold text-gray-800 md:text-3xl">
+            {wish}, {userName}!
+          </p>
+        )}
+        <p className="pb-5 font-semibold text-gray-600 text-md md:text-xl">
+          Today is {date}
+        </p>
+      </div>
       {/* Search Field */}
       <div className="sticky top-0 z-10 mb-6 bg-white">
         <input

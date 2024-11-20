@@ -4,7 +4,8 @@ import useDate from "../hooks/useDate";
 import LogoutButton from "./LogoutButton";
 import { FaCalendarAlt, FaChalkboardTeacher } from "react-icons/fa";
 import "aos/dist/aos.css";
-import "react-toastify/dist/ReactToastify.css";
+/* import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify"; */
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -22,6 +23,10 @@ const Dashboard: React.FC = () => {
     }
   }, []);
 
+/*   useEffect(() => {
+    toast.success("Login Successful!");
+  }) */
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-r from-blue-500 to-indigo-600">
       {/* Header */}
@@ -33,9 +38,9 @@ const Dashboard: React.FC = () => {
       {/* Welcome Message */}
       <div className="flex flex-col items-center justify-center flex-grow text-white">
         {userName && (
-          <div data-aos="fade-down" className="text-center">
+          <div className="text-center">
             <p className="mb-4 text-4xl font-semibold">
-              {wish}, {userName}!
+              {wish}, {userName}!👋
             </p>
             <p className="mb-8 text-2xl">
               <FaCalendarAlt className="inline-block mr-2" />
@@ -48,7 +53,6 @@ const Dashboard: React.FC = () => {
         <button
           onClick={goToContractorsPage}
           className="flex items-center px-6 py-4 font-semibold text-blue-500 transition-all bg-white rounded-full shadow-lg hover:bg-sky-50"
-          data-aos="zoom-in"
         >
           <FaChalkboardTeacher className="mr-3 text-2xl" />
           Go to Contractors Management

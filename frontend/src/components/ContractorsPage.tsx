@@ -165,7 +165,7 @@ const ContractorsPage: React.FC = () => {
       {/* Treść */}
       <div className="flex flex-col flex-grow lg:flex-row">
         {/* Lista kontrahentów */}
-        <div className="flex-1 p-6 overflow-y-auto">
+        <div className="flex-1 pt-6 pl-4 overflow-y-auto">
           {/* Pasek wyszukiwania */}
           <div className="flex items-center mb-6" data-aos="fade-down">
             <div className="relative w-full">
@@ -204,7 +204,7 @@ const ContractorsPage: React.FC = () => {
               : "translate-x-full lg:translate-x-0"
           }`}
         >
-          <div className="h-full p-6 overflow-y-auto">
+          <div className="h-full p-6 overflow-y-auto md:bg-transparent sm:bg-white">
             <button
               onClick={() => setIsSidebarOpen(false)}
               className="p-2 mb-4 text-white transition duration-300 bg-red-500 rounded-full lg:hidden hover:bg-red-600"

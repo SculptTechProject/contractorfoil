@@ -41,7 +41,7 @@ const ContractorsList: React.FC<ContractorsListProps> = ({
   return (
     <div className="px-4 mx-auto mt-5 max-w-7xl">
       {sortedContractors.length > 0 ? (
-        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
           {sortedContractors.map((contractor) => {
             const contactDate = new Date(contractor.contactDate);
             const timeDifference = contactDate.getTime() - today.getTime();

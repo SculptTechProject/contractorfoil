@@ -1,4 +1,4 @@
-const API_URL =  /* "https://contractorfoil.onrender.com" */ "http://localhost:5173";
+const API_URL =  "https://contractorfoil.onrender.com" /* "http://localhost:5173" */;
 
 // Function to get JWT token from localStorage
 const getToken = () => {
@@ -35,7 +35,7 @@ export const registerUser = async (
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(bodyData),
   });
-
+ 
   if (!response.ok) {
     const errorMessage = await response.text();
     throw new Error(`Failed to register user: ${errorMessage}`);

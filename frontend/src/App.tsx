@@ -4,16 +4,16 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import ContractorsPage from "./components/ContractorsPage";
+import Login from "./components/Pages/Login";
+import Register from "./components/Pages/Register";
+import ContractorsPage from "./components/Pages/ContractorsPage";
 import PrivateRoute from "./components/PrivateRoute";
-import HomePage from "./components/HomePage";
+import HomePage from "./components/Pages/HomePage";
 import ErrorPage from "./components/ErrorPage";
-import ContractorDetails from "./components/ContractorDetalis";
+import ContractorDetails from "./components/Pages/ContractorDetalis";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import Dashboard from "./components/Dashboard"
+import Dashboard from "./components/Pages/Dashboard"
 
 const App: React.FC = () => {
   return (

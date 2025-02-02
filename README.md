@@ -18,18 +18,6 @@ Wyszukiwanie kontrahentów – szybkie filtrowanie według nazwy.
 
 Powiadomienia Web Push – przypomnienia o zaplanowanych kontaktach.
 
-# Technologie
-
-Frontend: Next.js, TypeScript, Tailwind CSS
-
-Backend: Node.js, Express.js, MongoDB
-
-Autoryzacja: JWT, Google reCAPTCHA
-
-Powiadomienia: Web Push API
-
-Stylizacja: Tailwind CSS
-
 
 # Technologie
 
